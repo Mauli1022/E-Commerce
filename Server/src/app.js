@@ -21,7 +21,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
 // import all the routes
+import userRoute from "./Routes/user.route.js"
 
+app.use("/api/auth",userRoute)
 
 
 export { app };
