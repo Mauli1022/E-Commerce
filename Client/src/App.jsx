@@ -36,9 +36,9 @@ export default function App() {
         <Routes>
 
           <Route path='/auth' element={
-            <CheckAuth isAuthenticated={isAuthenticated} userInfo={userInfo}>
+            // <CheckAuth isAuthenticated={isAuthenticated} userInfo={userInfo}>
               <Layout />
-            </CheckAuth>
+            // </CheckAuth>
           }  >
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
