@@ -56,16 +56,22 @@ export default function AdminSideBar({ open, setOpen }) {
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" classNamew-64>
+        <SheetContent side="left" className="w-64">
+
           <div className='flex flex-col h-full'>
+
             <SheetHeader className='border-b'>
+              
               <SheetTitle className='flex gap-2 mt-4 mb-5'>
                 <ChartColumnIncreasing size={30} />
                 <span>Admin Panel</span>
               </SheetTitle>
+
             </SheetHeader>
+
             <MenuItems setOpen={setOpen} />
           </div>
+
         </SheetContent>
       </Sheet>
       <aside className='hidden w-64 flex-col border-r bg-background p-6 lg:flex'>

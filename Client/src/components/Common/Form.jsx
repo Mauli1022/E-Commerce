@@ -6,7 +6,7 @@ import {
     SelectItem, 
     SelectTrigger, 
     SelectValue 
-} from '@radix-ui/react-select';
+} from '../ui/select';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
@@ -42,7 +42,7 @@ export default function Form({ formContols, formData, setFormData, onSubmit, but
                     })} value={value}
                     >
                         <SelectTrigger className='w-full'>
-                            <SelectValue placeholder={getControlItem.placeholder}/>
+                            <SelectValue placeholder={getControlItem.label}/>
                         </SelectTrigger>
 
                         <SelectContent>
@@ -51,7 +51,7 @@ export default function Form({ formContols, formData, setFormData, onSubmit, but
                                 getControlItem.options.length > 0 ?
                                 getControlItem.options.map(optionsItem =>
                                 <SelectItem key={optionsItem.id} value={optionsItem.id}>
-
+                                     {optionsItem.label}
                                 </SelectItem>) : null
                             }
                         </SelectContent>
