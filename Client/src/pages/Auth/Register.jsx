@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Form from "../../components/Common/Form"
 import {registerFormControls} from "../../config/index.js"
+import { useDispatch } from 'react-redux'
+import { registerUser } from "../../store/auth-slice/index.js"
+import { useToast } from '@/components/Common/hooks/use-toast'
 
 export default function Register() {
 
@@ -11,11 +14,33 @@ export default function Register() {
     password : ''
   }
   const [formData,setFormData] = useState(initialState)
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const {toast} = useToast();
 
-  function onSubmit(e){    
+  async function onSubmit(e){    
     e.preventDefault()
+    // console.log(formData);
+    
+    dispatch(registerUser(formData))
+    .then((data)=>{
+      // console.log(data);
+      
+      if (data?.payload?.success) {
+        toast({
+          title : data?.payload?.message,
+        })
+        navigate('/auth/login')
+      }else{
+        toast({
+          // title : data?.error?.message,
+          title : 'User Already Hava An Account',
+          variant: "destructive"
+        })
+      }
+    })  
+
   }
-  console.log(formData);
 
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>

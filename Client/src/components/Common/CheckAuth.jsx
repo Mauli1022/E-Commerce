@@ -1,9 +1,14 @@
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
-export default function CheckAuth({isAuthenticated,userInfo,children}) {
+export default function CheckAuth({isAuthenticated,user,children}) {
     
     const location = useLocation()
+
+    console.log(user);
+    // console.log(isAuthenticated);
+    console.log(location.pathname);
+    
 
     if(
         !isAuthenticated && 
@@ -22,21 +27,23 @@ export default function CheckAuth({isAuthenticated,userInfo,children}) {
             location.pathname.includes("/register")
         )
     ){
-        if (userInfo?.role == 'admin') {
+        if (user?.role == 'admin') {
             return<Navigate to={'/admin/dashboard'}/>
         }else{
             return <Navigate to={'/shop/home'}/>
         }
     }
 
-    if (isAuthenticated && userInfo?.role !== 'admin' && location.pathname.includes('admin')) {
+    if (isAuthenticated && user?.role !== 'admin' && location.pathname.includes('admin')) {
         return <Navigate to={'/unauth-page'}/>
     }
 
-    if (isAuthenticated && userInfo?.role === 'admin' && location.pathname.includes('shop')) {
+    if (isAuthenticated && user?.role === 'admin' && location.pathname.includes('shop')) {
         return <Navigate to={'/admin/dashboard'}/>
     }
     
 
   return <>{children}</>
 }
+
+// CCM Tool

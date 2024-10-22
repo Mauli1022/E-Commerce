@@ -5,7 +5,7 @@ import cors from "cors"
 const app = express()
 
 app.use(cors({
-    origin : 'http://localhost:5173/',
+    origin : 'http://localhost:5173',
     methods : ['GET','POST','DELETE','PUT'],
     allowedHeaders : [
         'Content-Type',
@@ -25,5 +25,4 @@ import userRoute from "./Routes/user.route.js"
 
 app.use("/api/auth",userRoute)
 
-
-export { app };
+export { app }; 

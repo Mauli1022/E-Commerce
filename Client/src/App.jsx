@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Auth/Layout'
 import Login from './pages/Auth/Login'
@@ -19,16 +19,28 @@ import ShoppingAccount from './pages/Shopping/ShoppingAccount'
 import NotFoundPage from './pages/Not-Found/NotFoundPage'
 import CheckAuth from './components/Common/CheckAuth'
 import UnauthPage from './pages/Unauth-Page/UnauthPage'
+// ShadCn Component
+import { Skeleton } from "@/components/ui/skeleton"
+// Redux hooks and Component
+import { useDispatch, useSelector } from 'react-redux'
+import { checkAuth } from './store/auth-slice'
+
+
 
 
 export default function App() {
 
-  const isAuthenticated = true;
-  const userInfo = {
-    name : 'Vishal',
-    role : "user"
-  };
+  const {user, isAuthenticated, isLoading} = useSelector(state=>state.auth)
+  const dispatch = useDispatch()
 
+  useEffect(()=>{
+    dispatch(checkAuth())
+  },[dispatch])
+  
+  if(isLoading) return <Skeleton className="w-[600px] h-[600px] bg-black" />
+  // console.log(location.pathname);
+  
+  
   return (
     <>
       <div className='flex flex-col overflow-hidden bg-white'>
@@ -36,9 +48,9 @@ export default function App() {
         <Routes>
 
           <Route path='/auth' element={
-            // <CheckAuth isAuthenticated={isAuthenticated} userInfo={userInfo}>
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <Layout />
-            // </CheckAuth>
+            </CheckAuth>
           }  >
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
@@ -46,7 +58,7 @@ export default function App() {
 
           {/*Admin Routes */}
           <Route path='/admin' element={
-            <CheckAuth isAuthenticated={isAuthenticated} userInfo={userInfo}>
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <AdminLayout />
             </CheckAuth>
           }>
@@ -58,7 +70,7 @@ export default function App() {
 
           {/* Shopping Routes */}
           <Route path='/shop' element={
-            <CheckAuth isAuthenticated={isAuthenticated} userInfo={userInfo}>
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <ShoppingLayout />
             </CheckAuth>
           }>
