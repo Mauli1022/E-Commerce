@@ -1,3 +1,4 @@
+import { CalendarArrowUp, LayoutDashboard } from "lucide-react"
 
 
 export const registerFormControls = [
@@ -25,7 +26,6 @@ export const registerFormControls = [
         
     },
 ]
-
 
 
 export const loginFormControls = [
