@@ -22,7 +22,9 @@ app.use(express.urlencoded({extended : true}))
 
 // import all the routes
 import userRoute from "./Routes/user.route.js"
+import adminProductRouter from "./Routes/Admin/products.route.js"
 
 app.use("/api/auth",userRoute)
+app.use("/api/admin",adminProductRouter)
 
 export { app }; 
