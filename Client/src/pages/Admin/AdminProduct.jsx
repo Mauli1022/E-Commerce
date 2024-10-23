@@ -18,6 +18,8 @@ export default function AdminProduct() {
     totalStock : ''
   }
   const [formData,setFormData] = useState(initialFormData);
+  const [imageFile,setImageFile] = useState(null);
+  const [uploadedImageUrl,setUploadedImageUrl] = useState('')
   function onSubmit(){
 
   }
@@ -35,7 +37,14 @@ export default function AdminProduct() {
               <SheetTitle>Add New Product</SheetTitle>
             </SheetHeader>
             </>
-            <ImageUploadComponent/>
+
+            <ImageUploadComponent 
+            imageFile={imageFile} 
+            setImageFile={setImageFile} 
+            uploadedImageUrl={uploadedImageUrl}
+            setUploadedImageUrl={setUploadedImageUrl}
+            />
+
             <div className='py-6' >
               <Form 
               formContols={addProductFormElements}

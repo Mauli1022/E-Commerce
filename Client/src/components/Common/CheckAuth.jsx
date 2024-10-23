@@ -5,9 +5,9 @@ export default function CheckAuth({isAuthenticated,user,children}) {
     
     const location = useLocation()
 
-    console.log(user);
+    // console.log(user);
     // console.log(isAuthenticated);
-    console.log(location.pathname);
+    // console.log(location.pathname);
     
 
     if(
