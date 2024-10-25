@@ -1,11 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { UploadCloudIcon, XIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import { FileIcon } from 'lucide-react'
+import axios from 'axios'
 
-export default function ImageUploadComponent({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl }) {
+export default function ImageUploadComponent({ 
+  imageFile, 
+  setImageFile, 
+  uploadedImageUrl, 
+  setUploadedImageUrl,
+  imageLoadingState,
+  setImageLoadingState 
+}) {
 
   const inputRef = useRef(null)
 
@@ -31,6 +39,33 @@ function handleRemoveImage(){
     inputRef.current.value = ''
   }
 }
+// console.log("upload Image Url",uploadedImageUrl);
+
+async function uploadImageToCloudinary(){
+  setImageLoadingState(true)
+  const data = new FormData()
+  data.append("my_file",imageFile)
+  await axios.post("http://localhost:8000/api/admin/upload-image",data)
+  .then(response=>{
+    if(response.data?.success){ 
+      setUploadedImageUrl(response.data.data.url) 
+      setImageLoadingState(false)
+    }
+
+  })
+  .catch(
+    error=>console.error(error)
+  )
+  // console.log(response.data);
+  
+  // if(response) setUploadedImageUrl(response.data)
+}
+
+useEffect(()=>{
+if(imageFile !==null ) uploadImageToCloudinary()
+},[imageFile])
+
+
 
   return (
     <div className='w-full max-w-md mx-auto'>
