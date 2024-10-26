@@ -57,11 +57,10 @@ async function uploadImageToCloudinary(){
   .catch(
     error=>console.error(error)
   )
-  // console.log(response.data);
-  
-  // if(response) setUploadedImageUrl(response.data)
 }
 
+// call the uploadImageToCloudinary when admin selects a image/file
+// and store it on cloudinary
 useEffect(()=>{
 if(imageFile !==null ) uploadImageToCloudinary()
 },[imageFile])

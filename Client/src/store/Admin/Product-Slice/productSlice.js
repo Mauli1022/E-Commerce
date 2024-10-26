@@ -66,7 +66,6 @@ const adminProductSlice = createSlice({
         })
         .addCase(addNewProduct.rejected,(state,action)=>{
             // console.log("Add New Product",action.payload.data);
-            
             state.isLoading = false,
             state.productList = []
         })
