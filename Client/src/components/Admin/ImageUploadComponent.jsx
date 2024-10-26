@@ -5,6 +5,7 @@ import { UploadCloudIcon, XIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import { FileIcon } from 'lucide-react'
 import axios from 'axios'
+import { Skeleton } from '../ui/skeleton'
 
 export default function ImageUploadComponent({ 
   imageFile, 
@@ -83,10 +84,12 @@ if(imageFile !==null ) uploadImageToCloudinary()
           onChange={handleImageFileChange}
         />
         {
-          !imageFile ? <Label htmlFor="image-upload" className="flex flex-col items-center justify-center h-32 cursor-pointer">
+          !imageFile ? (<Label htmlFor="image-upload" className="flex flex-col items-center justify-center h-32 cursor-pointer">
             <UploadCloudIcon className='w-10 h-10 text-muted-foreground mb-2'/>
             <span>Drag & Drop or Click To Upload Image</span>
-          </Label> : <div className='flex items-center justify-between'>
+          </Label>) : (
+            imageLoadingState ? <Skeleton className={"h-10 bg-gray-100"}/> :
+            <div className='flex items-center justify-between'>
             <div className='flex items-center'>
               <FileIcon className="w-8 text-primary mr-2 h-8"/>
               <p className='text-sm font-medium'>{imageFile.name}</p>
@@ -96,7 +99,7 @@ if(imageFile !==null ) uploadImageToCloudinary()
               </Button>
             </div>
           </div>
-        }
+          )}
       </div>
     </div>
   )
