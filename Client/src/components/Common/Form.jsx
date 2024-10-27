@@ -10,7 +10,14 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
-export default function Form({ formContols, formData, setFormData, onSubmit, buttonText }) {
+export default function Form({ 
+    formContols, 
+    formData, 
+    setFormData, 
+    onSubmit, 
+    buttonText,
+    isButtonDisabled
+ }) {
 
     function renderInputsByComponentType(getControlItem) {
         let element = null;
@@ -110,7 +117,11 @@ export default function Form({ formContols, formData, setFormData, onSubmit, but
                 }
             </div>
 
-            <Button className='mt-2 w-full' type='submit'>{buttonText || 'Submit'}</Button>
+            <Button 
+            className='mt-2 w-full' type='submit'
+            disabled={isButtonDisabled}
+            >{buttonText || 'Submit'}
+            </Button>
 
         </form>
     )
