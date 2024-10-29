@@ -3,14 +3,30 @@ import axios from "axios";
 
 const initialState = {
     allProduct : [],
-    isLoading : false
+    isLoading : false,
+    productDetails : null
 }
 
 export const fetchAllShoppingProducts = createAsyncThunk(
     "/products/fetchAllShoppingProducts",
-    async () => {
-        const result = await axios.get("http://localhost:8000/api/shop/get-all-product")
-        // console.log(result);
+    async ({filterParams, sortParams}) => {
+
+        const query = new URLSearchParams({
+            ...filterParams,
+            sortBy : sortParams
+        })
+
+        const result = await axios.get(`http://localhost:8000/api/shop/get-all-product?${query}`)
+
+        return result.data
+})
+
+
+export const fetchProductDetails = createAsyncThunk(
+    "/products/fetchProductDetails",
+    async (id) => {
+        const result = await axios.get(`http://localhost:8000/api/shop/get-Product-details/${id}`)
+
         return result.data
 })
 
@@ -21,7 +37,8 @@ export const shoppingProductSlice = createSlice({
     initialState,
     reducers : {},
     extraReducers : (builder) => {
-        builder.addCase(fetchAllShoppingProducts.pending,(state)=>{
+        builder
+        .addCase(fetchAllShoppingProducts.pending,(state)=>{
             state.isLoading = true
         })
         .addCase(fetchAllShoppingProducts.fulfilled,(state,action)=>{
@@ -33,6 +50,19 @@ export const shoppingProductSlice = createSlice({
             console.log(action);
             state.isLoading = false,
             state.allProduct = []
+        })
+        .addCase(fetchProductDetails.pending , (state)=>{
+            state.isLoading = true
+        })
+        .addCase(fetchProductDetails.fulfilled,(state,action)=>{
+            console.log(action.payload);
+            state.isLoading = false,
+            state.productDetails = action.payload.data
+        })
+        .addCase(fetchProductDetails.rejected,(state,action)=>{
+            console.log(action);
+            state.isLoading = false,
+            state.productDetails = null
         })
     }
 

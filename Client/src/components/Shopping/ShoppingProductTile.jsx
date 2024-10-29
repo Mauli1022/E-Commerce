@@ -5,16 +5,16 @@ import { Button } from '../ui/button'
 import { categoryOptionsMap, brandOptionsMap } from "../../config/index.js"
 
 
-export default function ShoppingProductTile({ product }) {
+export default function ShoppingProductTile({ product,handleGetProductDetails }) {
     return (
         <Card className="w-full max-w-sm mx-auto">
 
-            <div>
+            <div onClick={()=>handleGetProductDetails(product._id)}>
                 <div className='relative'>
                     <img
                         src={product.image}
                         alt={product.title}
-                        className='w-full h-[150px] object-fill rounded-t-lg'
+                        className='w-full h-[150px] object-cover rounded-t-lg'
                     />
                     {
                         product?.salePrice > 0 ?
@@ -23,7 +23,7 @@ export default function ShoppingProductTile({ product }) {
                 </div>
 
                 <CardContent className="">
-                    <h1 className='text-xl font-bold mb-2'>{product.title}</h1>
+                    <h1 className='text-lg font-bold mb-2'>{product.title}</h1>
                     <div className='flex justify-between items-center mb-2'>
                         <span className='text-[18px] text-muted-foreground'>
                             {categoryOptionsMap[product?.category]}
