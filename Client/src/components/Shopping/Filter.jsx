@@ -4,7 +4,7 @@ import { Label } from '../ui/label.jsx'
 import { Checkbox } from '../ui/checkbox.jsx'
 import { Separator } from "../ui/separator.jsx"
 
-export default function Filter() {
+export default function Filter({ filters, handleFilter }) {
     return (
         <div className='bg-background rounded-lg shadow-sm'>
 
@@ -23,7 +23,13 @@ export default function Filter() {
                                     {
                                         filterOptions[keyItem].map((options, index) => (
                                             <Label key={index} className="flex items-center gap-2 font-medium">
-                                                <Checkbox />
+                                                <Checkbox
+                                                checked={
+                                                    filters && Object.keys(filters).length > 0 && 
+                                                    filters[keyItem] && filters[keyItem].indexOf(options.id) > -1
+                                                } 
+                                                onCheckedChange={()=>handleFilter( keyItem, options.id )} 
+                                                />
                                                 {options.label}
                                             </Label>
                                         ))

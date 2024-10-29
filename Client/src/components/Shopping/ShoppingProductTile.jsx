@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardFooter } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
+import { categoryOptionsMap, brandOptionsMap } from "../../config/index.js"
 
 
 export default function ShoppingProductTile({ product }) {
@@ -13,7 +14,7 @@ export default function ShoppingProductTile({ product }) {
                     <img
                         src={product.image}
                         alt={product.title}
-                        className='w-full h-[300px] object-cover rounded-t-lg'
+                        className='w-full h-[150px] object-fill rounded-t-lg'
                     />
                     {
                         product?.salePrice > 0 ?
@@ -21,16 +22,20 @@ export default function ShoppingProductTile({ product }) {
                     }
                 </div>
 
-                <CardContent className="p-4 ">
+                <CardContent className="">
                     <h1 className='text-xl font-bold mb-2'>{product.title}</h1>
                     <div className='flex justify-between items-center mb-2'>
-                        <span className='text-sm text-muted-foreground'>{product?.category}</span>
-                        <span className='text-sm text-muted-foreground'>{product?.brand}</span>
+                        <span className='text-[18px] text-muted-foreground'>
+                            {categoryOptionsMap[product?.category]}
+                        </span>
+                        <span className='text-[18px] text-muted-foreground'>
+                            {brandOptionsMap[product?.brand]}
+                        </span>
                     </div>
 
                     <div className='flex justify-between items-center mb-2'>
                         <span className={` ${product.salePrice > 0 ? "line-through" : ""} text-lg font-semibold text-primary`}>{product?.price}</span>
-                        <span className='text-lg font-semibold text-primary'>{product?.salePrice}</span>
+                        {/* <span className='text-lg font-semibold text-primary'>{product?.salePrice}</span> */}
                         {
                             product?.salePrice > 0 ?  <span className='text-lg font-semibold text-primary'>
                                 {product?.salePrice}
