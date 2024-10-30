@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllShoppingProducts, fetchProductDetails } from "../../store/Shop/shoppingProductSlice.js"
 
 import ShoppingProductTile from '../../components/Shopping/ShoppingProductTile'
+import ShoppingProductDetails from '../../components/Shopping/ShoppingProductDetails'
 import { useSearchParams } from 'react-router-dom'
 
 function createSearchParamsHelper(filtersParams) {
@@ -35,6 +36,7 @@ export default function ShoppingListing() {
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
   const [searchParams, setSearchParams] = useSearchParams()
+  const [openDetailsDialog, setOpenDialogs] = useState(false)
 
   function handleSort(value) {
     // console.log(value);
@@ -95,7 +97,14 @@ export default function ShoppingListing() {
       setSearchParams(new URLSearchParams(createQueryString))
     }
   }, [filters])
-  // console.log(searchParams.toString());
+
+  useEffect(()=>{
+    if(productDetails !== null){
+      setOpenDialogs(true)
+    }
+  },[productDetails])
+  // console.log(productDetails);
+  
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6'>
@@ -143,6 +152,9 @@ export default function ShoppingListing() {
         </div>
 
       </div>
+
+      {/* Product Details Component */}
+      <ShoppingProductDetails open={openDetailsDialog} setOpen={setOpenDialogs} productDetails={productDetails} />
     </div>
   )
 }
