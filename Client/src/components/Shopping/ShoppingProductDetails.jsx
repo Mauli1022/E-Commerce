@@ -27,7 +27,7 @@ export default function ShoppingProductDetails({ open, setOpen, productDetails }
                     <div className="flex items-center justify-between font-sans">
                         <span className="flex gap-1 font-bold">
                             <p className="text-1xl font-serif text-muted-foreground"> Original Price : $ </p>
-                            <p className={`${productDetails?.salePrice > 0 ? "line-through " : ""} text-3xl font-bold text-primary text-muted-foreground font-mono `}>{productDetails?.price}</p>
+                            <p className={`${productDetails?.salePrice > 0 ? "line-through " : ""} text-3xl font-bold text-primary  font-mono `}>{productDetails?.price}</p>
                         </span>
 
                         <span className="flex gap-1 font-bold mr-1">
