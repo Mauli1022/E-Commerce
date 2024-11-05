@@ -39,6 +39,7 @@ export async function addToCart(req,res){
 
         res.send({
             success : true,
+            message : "Product is Added",
             data : cart
         })
         
@@ -74,9 +75,7 @@ export async function fetchCartItems(req,res){
             path : "userId",
             select : "email role"
         })
-        console.log(userData);
-        
-        
+        // console.log(userData);
         
         if(!cart){
             return res.status(404).send({
@@ -226,6 +225,7 @@ export async function deleteCartItems(req,res){
         
         res.status(200).send({
             success : true,
+            message : "Product Removed Successfully",
             data : {
                 ...cart._doc,
                 items : populateCartItems

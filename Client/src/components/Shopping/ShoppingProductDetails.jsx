@@ -5,9 +5,42 @@ import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog"
 import { Separator } from "../ui/separator"
 import { Input } from "../ui/input"
+import { useDispatch, useSelector } from "react-redux"
+import { addToCart, fetchCartItems } from "../../store/cart-slice/index.js"
+import { useToast } from "../Common/hooks/use-toast"
 
+export default function ShoppingProductDetails({ 
+    open, 
+    setOpen, 
+    productDetails,
+    
+ }) {
 
-export default function ShoppingProductDetails({ open, setOpen, productDetails }) {
+    const dispatch = useDispatch()
+    const { user } = useSelector(state=>state.auth)
+    const { toast } = useToast()
+      // Function to handle Add to cart functionality
+  function handleAddToCart(getCurrentProductId){
+    console.log(getCurrentProductId);
+    
+    dispatch(addToCart({
+      userId : user.id,
+      productId : getCurrentProductId,
+      quantity : 1
+    }))
+    .then(data=>{
+      if(data?.payload?.success){
+        dispatch(fetchCartItems(user?.id))
+        toast({
+          title : data?.payload?.message
+        })
+      }
+    })
+    .catch(error=>console.error(error))
+  }
+
+  console.log(productDetails);
+  
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="grid grid-cols-2 gap-8 sm:p-2 max-w-[90vw]  sm:max-w-[80vw] lg:max-w-[70vw] ">
@@ -54,19 +87,19 @@ export default function ShoppingProductDetails({ open, setOpen, productDetails }
                     </div>
 
                     <div className="mt-5 mb-5">
-                        <Button className="w-full">Add To Cart</Button>
+                        <Button className="w-full" onClick={()=>handleAddToCart(productDetails?._id)}>Add To Cart</Button>
                     </div>
                     <Separator className="border-gray-800 mt-3" />
 
                     <div className="maxh-[300px] overflow-auto">
 
                         <h2 className="text-xlfont-bold mb-4 font-serif">Reviews</h2>
-                        <div className="grid gap-6">
-                            <div className="flex gap-4 ">
+                        <div className="grid gap-6 overflow-y-auto">
+                            <div className="flex gap-4 overflow-auto">
                                 <Avatar className="w-10 h-10 border font-serif">
                                     <AvatarFallback>VP</AvatarFallback>
                                 </Avatar>
-                                <div className="grid gap-1">
+                                <div className="grid gap-1 ">
                                     <div className="flex items-center gap-2">
                                         <h3 className="flex items-center gap-2 font-serif font-bold">Vishal Palke</h3>
                                     </div>
@@ -81,6 +114,7 @@ export default function ShoppingProductDetails({ open, setOpen, productDetails }
                                     <p className=" text-muted-foreground font-serif">This is An Awsome Product</p>
                                 </div>
                             </div>
+
                         </div>
 
                         <div className="flex mt-6 gap-2">

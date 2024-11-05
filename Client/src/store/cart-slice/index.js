@@ -7,11 +7,13 @@ const initialState ={
 }
 
 export const addToCart = createAsyncThunk("/cart/addToCart", 
-    async(userId, productId, quantity)=>{
-
+    async({userId, productId, quantity})=>{
+        // console.log(userId, productId, quantity);
+        
     const response = await axios.post("http://localhost:8000/api/cart/add-cart-product",{
         userId,productId,quantity
-    })
+    },
+)
     return response.data
 })
 
@@ -23,8 +25,9 @@ export const fetchCartItems = createAsyncThunk("/cart/fetchCartItems",
 })
 
 export const updateCartItems = createAsyncThunk("/cart/updateCartItems", 
-    async(userId, productId, quantity)=>{
-
+    async({userId, productId, quantity})=>{
+        // console.log("User Update Thunk",userId ,productId, quantity );
+        
     const response = await axios.put("http://localhost:8000/api/cart/update-cart-product",{
         userId,productId,quantity
     })
@@ -32,8 +35,8 @@ export const updateCartItems = createAsyncThunk("/cart/updateCartItems",
 })
 
 export const deleteCartItem = createAsyncThunk("/cart/deleteCartItem", 
-    async(userId, productId,)=>{
-
+    async({userId, productId})=>{
+        
     const response = await axios.delete(`http://localhost:8000/api/cart/delete-cart-product/${userId}/${productId}`)
     return response.data
 })
@@ -50,12 +53,12 @@ const shoppingCartSlice = createSlice({
             state.cartItems = []
         })
         .addCase(addToCart.fulfilled, (state,action)=>{
-            console.log(action.payload);
+            // console.log(action.payload);
             state.isLoading = false,
             state.cartItems = action.payload.data
         })
         .addCase(addToCart.rejected,(state,action)=>{
-            console.log(action.payload);
+            // console.log(action);
             state.isLoading = false,
             state.cartItems = []
         })
@@ -64,7 +67,7 @@ const shoppingCartSlice = createSlice({
             state.cartItems = []
         })
         .addCase(fetchCartItems.fulfilled, (state,action)=>{
-            console.log(action.payload);
+            // console.log(action.payload);
             state.isLoading = false,
             state.cartItems = action.payload.data
         })
@@ -78,7 +81,7 @@ const shoppingCartSlice = createSlice({
             state.cartItems = []
         })
         .addCase(updateCartItems.fulfilled, (state,action)=>{
-            console.log(action.payload);
+            // console.log(action.payload);
             state.isLoading = false,
             state.cartItems = action.payload.data
         })
@@ -92,7 +95,7 @@ const shoppingCartSlice = createSlice({
             state.cartItems = []
         })
         .addCase(deleteCartItem.fulfilled, (state,action)=>{
-            console.log(action.payload);
+            // console.log(action.payload);
             state.isLoading = false,
             state.cartItems = action.payload.data
         })

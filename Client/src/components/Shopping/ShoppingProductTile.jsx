@@ -5,11 +5,11 @@ import { Button } from '../ui/button'
 import { categoryOptionsMap, brandOptionsMap } from "../../config/index.js"
 
 
-export default function ShoppingProductTile({ product,handleGetProductDetails }) {
+export default function ShoppingProductTile({ product, handleGetProductDetails,handleAddToCart }) {
     return (
         <Card className="w-full max-w-sm mx-auto">
 
-            <div onClick={()=>handleGetProductDetails(product._id)}>
+            <div onClick={()=>handleGetProductDetails(product._id)} className='hover:cursor-pointer'>
                 <div className='relative'>
                     <img
                         src={product.image}
@@ -43,14 +43,13 @@ export default function ShoppingProductTile({ product,handleGetProductDetails })
                         }
                     </div>
                 </CardContent>
-
-                <CardFooter className="">
-                    <Button className="w-full">
+            </div>
+            <CardFooter className="">
+                    <Button className="w-full" onClick={()=>handleAddToCart(product?._id)}>
                         Add To Cart
                     </Button>
 
                 </CardFooter>
-            </div>
 
         </Card>
     )

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Filter from "../../components/Shopping/Filter"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger, } from '../../components/ui/dropdown-menu'
+import { DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuRadioGroup, 
+  DropdownMenuRadioItem, 
+  DropdownMenuTrigger, 
+} from '../../components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDownIcon } from 'lucide-react'
 import { sortOptions } from "../../config/index.js"
@@ -8,10 +13,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // Thunk
 import { fetchAllShoppingProducts, fetchProductDetails } from "../../store/Shop/shoppingProductSlice.js"
+import { addToCart,fetchCartItems } from "../../store/cart-slice/index.js"
 
 import ShoppingProductTile from '../../components/Shopping/ShoppingProductTile'
 import ShoppingProductDetails from '../../components/Shopping/ShoppingProductDetails'
 import { useSearchParams } from 'react-router-dom'
+import { useToast } from '@/components/Common/hooks/use-toast'
 
 function createSearchParamsHelper(filtersParams) {
   const queryParams = []
@@ -31,12 +38,16 @@ function createSearchParamsHelper(filtersParams) {
 export default function ShoppingListing() {
 
   const dispatch = useDispatch();
+  // get the userId from the Auth-Slice
+  const { user } = useSelector(state=>state.auth)
+  const { cartItems } = useSelector(state=>state.shoppingCart)
 
   const { allProduct, productDetails } = useSelector(state => state.shopProduct)
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
   const [searchParams, setSearchParams] = useSearchParams()
   const [openDetailsDialog, setOpenDialogs] = useState(false)
+  const {toast} = useToast()
 
   function handleSort(value) {
     // console.log(value);
@@ -77,6 +88,24 @@ export default function ShoppingListing() {
     // console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId))    
   }
+  // Function to handle Add to cart functionality
+  function handleAddToCart(getCurrentProductId){
+    
+    dispatch(addToCart({
+      userId : user.id,
+      productId : getCurrentProductId,
+      quantity : 1
+    }))
+    .then(data=>{
+      if(data?.payload?.success){
+        dispatch(fetchCartItems(user?.id))
+        toast({
+          title : data?.payload?.message
+        })
+      }
+    })
+    .catch(error=>console.error(error))
+  }
 
   useEffect(() => {
     setSort("price-lowtohigh")
@@ -103,8 +132,6 @@ export default function ShoppingListing() {
       setOpenDialogs(true)
     }
   },[productDetails])
-  // console.log(productDetails);
-  
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6'>
@@ -146,6 +173,7 @@ export default function ShoppingListing() {
                   product={product}
                   key={index}
                   handleGetProductDetails={handleGetProductDetails}
+                  handleAddToCart={handleAddToCart}
                 />
               )) : null
           }
@@ -154,7 +182,11 @@ export default function ShoppingListing() {
       </div>
 
       {/* Product Details Component */}
-      <ShoppingProductDetails open={openDetailsDialog} setOpen={setOpenDialogs} productDetails={productDetails} />
+      <ShoppingProductDetails 
+      open={openDetailsDialog} 
+      setOpen={setOpenDialogs} 
+      productDetails={productDetails} 
+      />
     </div>
   )
 }

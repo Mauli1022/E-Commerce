@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { House, Menu, ShoppingCart, UserCheck, LogOut } from 'lucide-react'
 import { Sheet, SheetTrigger, SheetContent } from '../../components/ui/sheet'
@@ -9,9 +9,10 @@ import { DialogTitle, DialogDescription } from '@radix-ui/react-dialog'
 import { DropdownMenu, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu'
-import { logOutUser } from "../../store/auth-slice/index.js"
-import CartItemsContent from './CartItemsContent'
 import CartWrapper from './CartWrapper'
+// thunk
+import { logOutUser } from "../../store/auth-slice/index.js"
+import { fetchCartItems } from "../../store/cart-slice/index.js"
 
 function MenuItems() {
   return <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
@@ -31,11 +32,17 @@ function HeaderRightContent() {
   const { user } = useSelector(state => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { cartItems } = useSelector(state=>state.shoppingCart)
+  // console.log(cartItems);
+  
 
   // Function to handle Logout user
   function handleLogout() {
     dispatch(logOutUser())
   }
+  useEffect(()=>{
+    dispatch(fetchCartItems(user.id))
+  },[dispatch])
 
   return <div className='flex lg:items-center lg:flex-row flex-col gap-4'>
     <Sheet open={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}>
@@ -43,7 +50,9 @@ function HeaderRightContent() {
       <ShoppingCart className="w-6 h-6" />
       <span className='sr-only'>User Cart</span>
     </Button>
-    <CartWrapper/>
+{/* Cart Item Wraper. */}
+    <CartWrapper cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []}/>
+
     </Sheet>
 
     <DropdownMenu>
