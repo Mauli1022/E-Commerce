@@ -40,7 +40,6 @@ export default function ShoppingListing() {
   const dispatch = useDispatch();
   // get the userId from the Auth-Slice
   const { user } = useSelector(state=>state.auth)
-  const { cartItems } = useSelector(state=>state.shoppingCart)
 
   const { allProduct, productDetails } = useSelector(state => state.shopProduct)
   const [filters, setFilters] = useState({})
@@ -85,7 +84,6 @@ export default function ShoppingListing() {
 
   // function to get product Id
   function handleGetProductDetails(getCurrentProductId){
-    // console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId))    
   }
   // Function to handle Add to cart functionality

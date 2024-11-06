@@ -13,13 +13,40 @@ import CartWrapper from './CartWrapper'
 // thunk
 import { logOutUser } from "../../store/auth-slice/index.js"
 import { fetchCartItems } from "../../store/cart-slice/index.js"
+import { Label } from '../ui/label'
 
 function MenuItems() {
+
+  const navigate = useNavigate()
+
+  function handleNavigate(getCurrentMenuItem){
+    // console.log("GetCurrentMenuItem",getCurrentMenuItem);
+    
+    sessionStorage.removeItem('filters')
+
+    const currentFilter = getCurrentMenuItem.id !== 'home' ?  
+    {
+      category : [getCurrentMenuItem.id]
+    } : null
+    sessionStorage.setItem('filters',JSON.stringify(currentFilter))
+
+    navigate(getCurrentMenuItem.path)
+  }
+
   return <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
     {
-      shopViewHeaderMenuItems.map(menuItms => {
+      shopViewHeaderMenuItems.map(menuItem => {
         return (
-          <Link key={menuItms.id} to={menuItms.path} className='text-sm font-medium'>{menuItms.label}</Link>
+          <Label 
+
+          onClick={()=>handleNavigate(menuItem)}
+
+          key={menuItem.id} 
+          to={menuItem.path} 
+          className='text-sm font-medium font-serif cursor-pointer'
+          >
+            {menuItem.label.toUpperCase()}
+          </Label>
         )
       })
     }

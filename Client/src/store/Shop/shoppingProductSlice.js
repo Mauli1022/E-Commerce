@@ -26,7 +26,8 @@ export const fetchProductDetails = createAsyncThunk(
     "/products/fetchProductDetails",
     async (id) => {
         const result = await axios.get(`http://localhost:8000/api/shop/get-Product-details/${id}`)
-
+        console.log(result);
+        
         return result.data
 })
 
@@ -35,7 +36,11 @@ export const fetchProductDetails = createAsyncThunk(
 export const shoppingProductSlice = createSlice({
     name : "shoppingProducts",
     initialState,
-    reducers : {},
+    reducers : {
+        setProductDetails : (state,action)=>{
+            state.productDetails = null
+        }
+    },
     extraReducers : (builder) => {
         builder
         .addCase(fetchAllShoppingProducts.pending,(state)=>{
@@ -67,5 +72,5 @@ export const shoppingProductSlice = createSlice({
     }
 
 })
-
+export const { setProductDetails } = shoppingProductSlice.actions
 export default shoppingProductSlice.reducer;

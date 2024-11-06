@@ -8,6 +8,7 @@ import { Input } from "../ui/input"
 import { useDispatch, useSelector } from "react-redux"
 import { addToCart, fetchCartItems } from "../../store/cart-slice/index.js"
 import { useToast } from "../Common/hooks/use-toast"
+import { setProductDetails } from "../../store/Shop/shoppingProductSlice.js"
 
 export default function ShoppingProductDetails({ 
     open, 
@@ -21,7 +22,6 @@ export default function ShoppingProductDetails({
     const { toast } = useToast()
       // Function to handle Add to cart functionality
   function handleAddToCart(getCurrentProductId){
-    console.log(getCurrentProductId);
     
     dispatch(addToCart({
       userId : user.id,
@@ -39,10 +39,13 @@ export default function ShoppingProductDetails({
     .catch(error=>console.error(error))
   }
 
-  console.log(productDetails);
+  function handleDialogClose(){
+    setOpen(false)
+    dispatch(setProductDetails())
+  }
   
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleDialogClose}>
             <DialogContent className="grid grid-cols-2 gap-8 sm:p-2 max-w-[90vw]  sm:max-w-[80vw] lg:max-w-[70vw] ">
                 <div className="relative overflow-hidden rounded-lg">
                     <img src={productDetails?.image} alt={productDetails?.title}
