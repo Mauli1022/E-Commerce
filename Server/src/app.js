@@ -25,10 +25,12 @@ import userRoute from "./Routes/user.route.js"
 import adminProductRouter from "./Routes/Admin/products.route.js"
 import shopProductRouter from './Routes/Shop/shopProduct.route.js'
 import cartRouter from "./Routes/Cart/cart.route.js"
+import addressRouter from "./Routes/Address/address.route.js"
 
 app.use("/api/auth",userRoute)
 app.use("/api/admin",adminProductRouter)
 app.use("/api/shop",shopProductRouter)
 app.use("/api/cart",cartRouter)
+app.use("/api/address",addressRouter)
 
 export { app }; 
