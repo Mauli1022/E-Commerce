@@ -3,9 +3,12 @@ import { SheetContent, SheetHeader, SheetTitle } from '../ui/sheet'
 import { DialogDescription } from "../../components/ui/dialog"
 import { Button } from '../ui/button'
 import CartItemsContent from './CartItemsContent';
+import { useNavigate } from 'react-router-dom';
 
 export default function CartWrapper({cartItems}) {
   // console.log(cartItems);
+
+  const navigate = useNavigate()
   
   const totalAmout = cartItems && cartItems.length > 0 ? 
   cartItems.reduce(
@@ -34,7 +37,7 @@ export default function CartWrapper({cartItems}) {
                 <span className='font-bold font-serif'>${totalAmout}</span>
             </div>
         </div>
-        <Button className="w-full mt-6">Checkout</Button>
+        <Button className="w-full mt-6" onClick={()=>navigate("/shop/checkout")}>Checkout</Button>
     </SheetContent>
   )
 }

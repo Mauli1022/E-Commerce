@@ -38,6 +38,7 @@ export default function Form({
                         [getControlItem.name] : event.target.value
 
                     })}
+                    className="font-mono"
                 />)
                 break;
 
@@ -77,6 +78,7 @@ export default function Form({
                         [getControlItem.name] : event.target.value
 
                     })}
+                    className="font-mono"
                     />
                 )
                 break;
@@ -93,6 +95,7 @@ export default function Form({
                         [getControlItem.name] : event.target.value
 
                     })}
+                    className="font-mono"
 
                 />)
                 break;
@@ -107,8 +110,8 @@ export default function Form({
             <div className="flex flex-col gap-3">
                 {
                     formContols.map(controlItem => (
-                    <div key={controlItem.name}  className='grid w-full gap-1.5'>
-                        <Label className='mb-1'>{controlItem.label}</Label>
+                    <div key={controlItem.name}  className='grid w-full gap-1.5 '>
+                        <Label className='mb-1 font-serif'>{controlItem.label}</Label>
                         {
                             renderInputsByComponentType(controlItem)
                         }
@@ -118,7 +121,7 @@ export default function Form({
             </div>
 
             <Button 
-            className='mt-2 w-full' type='submit'
+            className='mt-2 w-full font-serif' type='submit'
             disabled={isButtonDisabled}
             >{buttonText || 'Submit'}
             </Button>

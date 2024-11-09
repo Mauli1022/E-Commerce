@@ -9,7 +9,8 @@ const initialState = {
 // async thunk to add Address 
 export const addAddress = createAsyncThunk(
     "/address/addAddress",
-    async ({formData})=>{
+    async (formData)=>{
+        // console.log(formData);
         const response = await axios.post("http://localhost:8000/api/address/add-address",formData)
         return response.data;
     }
@@ -36,6 +37,8 @@ export const updateAddress = createAsyncThunk(
 export const deleteAddress = createAsyncThunk(
     "/address/deleteAddress",
     async ({userId,addressId})=>{
+        console.log("UserId",userId,"addressId",addressId);
+        
         const response = await axios.delete(`http://localhost:8000/api/address/delete-address/${userId}/${addressId}`)
         return response.data
     }
@@ -51,17 +54,20 @@ export const addressSlice = createSlice({
             state.isLoading = true
         })
         .addCase(addAddress.fulfilled,(state,action)=>{
-            state.isLoading = false,
-            state.userAddress = action.payload.data
+            // console.log(action);
+            state.isLoading = false
+            // state.userAddress = action.payload.data
         })
         .addCase(addAddress.rejected,(state,action)=>{
-            state.isLoading = false,
-            state.userAddress = []
+            state.isLoading = false
+            // state.userAddress = []
         })
         .addCase(fetchAllAddress.pending,(state)=>{
             state.isLoading = true
         })
         .addCase(fetchAllAddress.fulfilled,(state,action)=>{
+            // console.log(action.payload);
+            
             state.isLoading = false,
             state.userAddress = action.payload.data
         })

@@ -45,8 +45,8 @@ export async function fetchAllAddress(req,res) {
             })
         }
 
-        const myAddress = await Address.findOne({userId : userId});
-        console.log(myAddress);
+        const myAddress = await Address.find({userId : userId});
+        // console.log(myAddress);
         
         
         res.status(200).send({

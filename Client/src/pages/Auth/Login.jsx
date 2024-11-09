@@ -41,8 +41,8 @@ export default function Login() {
     <div className='mx-auto w-full max-w-md space-y-6'>
 
       <div className='text-center'>
-        <h1 className='text-3xl font-bold tracking-tight text-foreground'>Please Login</h1>
-        <p className='mt-2'>Please Register First 
+        <h1 className='text-3xl font-bold tracking-tight text-foreground font-serif'>Please Login</h1>
+        <p className='mt-2 font-mono'>Please Register First 
           <Link to={'/auth/register'} className='font-medium text-primary hover:underline ml-2'>Register</Link>
         </p>
       </div>
