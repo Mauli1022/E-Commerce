@@ -1,16 +1,17 @@
 import React from 'react'
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
+import { Card, CardContent, CardFooter } from '../ui/card'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 
 export default function AddressCard({
   addressInfo, 
   handleDeleteAddress, 
-  handleEditAddress
+  handleEditAddress,
+  setCurrentSelectedAddress
 }) {
 
   return (
-    <Card>
+    <Card onClick={setCurrentSelectedAddress ? ()=>setCurrentSelectedAddress(addressInfo) : null}>
        <CardContent className="grid gap-3 font-serif p-2 h-[70%] w-full  border-b-orange-300">
         <Label><span className='font-extrabold font-serif'>Address:</span> {addressInfo?.address}</Label>
         <Label><span className='font-extrabold font-serif'>City:</span> {addressInfo?.city}</Label>

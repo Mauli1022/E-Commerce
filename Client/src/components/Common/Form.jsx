@@ -49,16 +49,19 @@ export default function Form({
                         [getControlItem.name] : value
                     })} value={value}
                     >
-                        <SelectTrigger className='w-full'>
+                        <SelectTrigger className='w-full font-serif'>
                             <SelectValue placeholder={getControlItem.label}/>
                         </SelectTrigger>
 
-                        <SelectContent>
+                        <SelectContent className="font-serif">
                             {
                                 getControlItem.options && 
                                 getControlItem.options.length > 0 ?
                                 getControlItem.options.map(optionsItem =>
-                                <SelectItem key={optionsItem.id} value={optionsItem.id}>
+                                <SelectItem 
+                                key={optionsItem.id} 
+                                value={optionsItem.id}
+                                >
                                      {optionsItem.label}
                                 </SelectItem>) : null
                             }

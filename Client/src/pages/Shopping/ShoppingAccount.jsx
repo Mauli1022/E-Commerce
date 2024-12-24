@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/ta
 // Component
 import Order from "../../components/Shopping/Order"
 import Address from "../../components/Shopping/Address"
+
 export default function ShoppingAccount() {
   return (
     <div className='flex flex-col'>

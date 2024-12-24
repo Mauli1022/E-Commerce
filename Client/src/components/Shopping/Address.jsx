@@ -17,7 +17,7 @@ import { useToast } from '../Common/hooks/use-toast.js'
 import AddressCard from './AddressCard.jsx'
 
 
-export default function Address() {
+export default function Address({ setCurrentSelectedAddress }) {
 
     const initialState = {
         address : "",
@@ -122,10 +122,12 @@ export default function Address() {
     
   return (
     <Card>
-        <div className='mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2'>
+        <div className='mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2'>
             {
                 userAddress && userAddress.length > 0 ?
-                userAddress.map(sindleAddress=><AddressCard 
+                userAddress.map(sindleAddress=>
+                <AddressCard 
+                    setCurrentSelectedAddress = { setCurrentSelectedAddress }
                     addressInfo={sindleAddress}
                     key={sindleAddress._id}
                     handleDeleteAddress={handleDeleteAddress}
