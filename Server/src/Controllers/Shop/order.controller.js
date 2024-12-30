@@ -1,5 +1,6 @@
 import paypal from "../../Helpers/paypal.js"
 import { Order } from "../../Models/Order.model.js";
+import { Cart } from "../../Models/cart.model.js"
 
 export async function createOrder(req, res) {
 
@@ -15,10 +16,9 @@ export async function createOrder(req, res) {
             orderData,
             orderUpdateDate,
             paymentId,
-            payerId
+            payerId,
+            cartId
         } = req.body;        
-
-        // create payment json
         
         const create_payment_json = {
             intent: 'sale',
@@ -48,7 +48,6 @@ export async function createOrder(req, res) {
                 }
             ]
         }
-
         
         paypal.payment.create(create_payment_json, async (error, paymentInfo) => {
             if (error) {
@@ -69,7 +68,8 @@ export async function createOrder(req, res) {
                     orderData,
                     orderUpdateDate,
                     paymentId,
-                    payerId
+                    payerId,
+                    cartId
                 })
 
                 await newCreatedOrder.save();
@@ -95,12 +95,41 @@ export async function createOrder(req, res) {
             message: "Error Occured In Create Order Function."
         })
     }
-
 }
 
 export async function capturePayment(req, res) {
 
     try {
+        const {
+            paymentId,
+            payerId,
+            orderId
+        } = req.body;
+
+        const order = await Order.findById(orderId);
+        if(!order){
+            return res.status(404).send({
+                success : false,
+                message : "Order Cannot Be Found."
+            })
+        }
+        // console.log(order);
+        
+        order.paymentStatus = 'paid'
+        order.orderStatus = 'confirmed'
+        order.paymentId = paymentId
+        order.payerId = payerId
+
+        // get the cart item
+        const getCartId = order.cartId;
+        await Cart.findByIdAndDelete(getCartId);
+        
+        res.status(200).send({
+            success : true,
+            message : 'Order confirmed',
+            data : order
+        })
+
 
     } catch (error) {
         console.error("Capture Payment Error: ", error);
@@ -110,4 +139,63 @@ export async function capturePayment(req, res) {
         })
     }
 
+}
+
+export async function getAllOrdersByUser(req,res) {
+    
+    try {
+        const { userId } = req.params;
+        // console.log(userId);
+        
+        const orders = await Order.find({ userId });
+
+        if(!orders.length === 0 ){
+
+            return res.status(404).send({
+                success : false,
+                message : 'No Order Found.'
+            })
+        }
+
+        res.status(200).send({
+            success : true,
+            data : orders
+        })
+
+    } catch (error) {
+        console.error("Get All Order of User: ", error);
+        res.status(500).json({
+            success: false,
+            message: "Error Occured In Get All Order By User ."
+        })
+    }
+}
+
+export async function getOrderDetails(req,res) {
+    
+    try {
+
+        const {id} = req.params;
+        const orderDetails = await Order.findById(id);
+
+        if(!orderDetails.length === 0 ){
+
+            return res.status(404).send({
+                success : false,
+                message : 'Order Not Found.'
+            })
+        }
+
+        res.status(200).send({
+            success : true,
+            data : orderDetails
+        })
+        
+    } catch (error) {
+        console.error("Get Order Details: ", error);
+        res.status(500).json({
+            success: false,
+            message: "Error Occured In Get Order Details."
+        })
+    }
 }

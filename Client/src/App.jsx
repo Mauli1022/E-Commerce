@@ -15,6 +15,7 @@ import ShoppingHome from './pages/Shopping/ShoppingHome'
 import ShoppingListing from './pages/Shopping/ShoppingListing'
 import ShoppingCheckOut from './pages/Shopping/ShoppingCheckOut'
 import ShoppingAccount from './pages/Shopping/ShoppingAccount'
+import PayPalReturn from './pages/Shopping/PayPalReturn'
 // Not Found Page
 import NotFoundPage from './pages/Not-Found/NotFoundPage'
 import CheckAuth from './components/Common/CheckAuth'
@@ -24,6 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 // Redux hooks and Component
 import { useDispatch, useSelector } from 'react-redux'
 import { checkAuth } from './store/auth-slice'
+import PaymentSuccess from './pages/Shopping/PaymentSuccess'
 
 
 
@@ -78,6 +80,8 @@ export default function App() {
             <Route path='listing' element={<ShoppingListing />} />
             <Route path='checkout' element={<ShoppingCheckOut />} />
             <Route path='account' element={<ShoppingAccount />} />
+            <Route path='paypal-return' element={<PayPalReturn/>} />
+            <Route path='payment-success' element={<PaymentSuccess/>}/>
           </Route>
           {/* Not Found Page */}
           <Route path='*' element={<NotFoundPage />} />

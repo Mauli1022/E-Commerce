@@ -9,6 +9,8 @@ import Address from "../../components/Shopping/Address"
 import CartItemsContent from "../../components/Shopping/CartItemsContent"
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewOrder } from "../../store/order-slice/index.js"
+import { useToast } from '@/components/Common/hooks/use-toast'
+import { Variable } from 'lucide-react'
 
 
 export default function ShoppingCheckOut() {
@@ -18,6 +20,7 @@ export default function ShoppingCheckOut() {
   // get the approvalURL from the state
   const { approvalURL } = useSelector(state => state.shoppingOrder)
   const dispatch = useDispatch()
+  const { toast } = useToast();
 
   // State to manage Users Address 
   const [ currentSelectedAddress, setCurrentSelectedAddress ] = new useState(null);
@@ -34,9 +37,30 @@ export default function ShoppingCheckOut() {
   
 
   function handleInitiatePaypalPayment() {
+    // console.log(cartItems._id);
+
+    if (cartItems.length === 0) {
+      toast({
+        title : 'Your Cart Is Empty.',
+        variant : 'destructive'
+      })
+      
+    }
+
+    if(currentSelectedAddress  == null){
+      toast({
+        title : 'Please select One Address To Proceed.',
+        variant : 'destructive'
+      })
+
+      return ;
+    }
+    
 
     const orderData = {
       userId : user?.id,
+      cartId : cartItems?._id,
+
 
       cartItems : cartItems.items.map(singleCartItem=>({
         productId : singleCartItem?.productId,
