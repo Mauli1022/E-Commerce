@@ -29,7 +29,6 @@ export default function AdminOrderDetails({ orderDetails }) {
     function handleUpdatedStatus(e) {
         e.preventDefault()
 
-
         dispatch(updateOrderStatus({
             id: orderDetails?._id,
             orderStatus: formData.status

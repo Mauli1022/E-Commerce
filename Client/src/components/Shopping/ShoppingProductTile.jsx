@@ -5,20 +5,37 @@ import { Button } from '../ui/button'
 import { categoryOptionsMap, brandOptionsMap } from "../../config/index.js"
 
 
-export default function ShoppingProductTile({ product, handleGetProductDetails,handleAddToCart }) {
+export default function ShoppingProductTile({ product, handleGetProductDetails, handleAddToCart }) {
     return (
         <Card className="w-full max-w-sm mx-auto">
 
-            <div onClick={()=>handleGetProductDetails(product._id)} className='hover:cursor-pointer'>
+            <div onClick={() => handleGetProductDetails(product._id)} className='hover:cursor-pointer'>
                 <div className='relative'>
                     <img
                         src={product.image}
                         alt={product.title}
                         className='w-full h-[150px] object-cover rounded-t-lg'
                     />
+                    {/* {
+                         product?.totalStock === 0 ? 
+                         (<Badge className={"absolute top-2 left-2 bg-red-500 hover:bg-red-700"}>
+                            Out Of Stock
+                        </Badge>) : product?.totalStock < 10 ? 
+                        (<Badge className={"absolute top-2 left-2 bg-red-500 hover:bg-red-700"}>
+                            {`Only ${product?.totalStock} Items Left`}
+                        </Badge>) : 
+                    } */}
                     {
-                        product?.salePrice > 0 ?
-                            <Badge className={"absolute top-2 left-2 bg-red-500 hover:bg-red-700"}>Sale</Badge> : null
+                        product?.totalStock === 0 ?
+                            (<Badge className={"absolute top-2 left-2 bg-red-500 hover:bg-red-700"}>
+                                Out Of Stock
+                            </Badge>) : product?.totalStock < 10 ?
+                                (<Badge className={"absolute top-2 left-2 bg-red-500 hover:bg-red-700"}>
+                                    {`Only ${product?.totalStock} Items Left`}
+                                </Badge>) : product?.salePrice > 0 ?
+                                    (<Badge className={"absolute top-2 left-2 bg-red-500 hover:bg-red-700"}>
+                                        Sale
+                                    </Badge>) : null
                     }
                 </div>
 
@@ -37,19 +54,26 @@ export default function ShoppingProductTile({ product, handleGetProductDetails,h
                         <span className={` ${product.salePrice > 0 ? "line-through" : ""} text-lg font-semibold text-primary`}>{product?.price}</span>
                         {/* <span className='text-lg font-semibold text-primary'>{product?.salePrice}</span> */}
                         {
-                            product?.salePrice > 0 ?  <span className='text-lg font-semibold text-primary'>
+                            product?.salePrice > 0 ? <span className='text-lg font-semibold text-primary'>
                                 {product?.salePrice}
-                                </span> : null
+                            </span> : null
                         }
                     </div>
                 </CardContent>
             </div>
             <CardFooter className="">
-                    <Button className="w-full" onClick={()=>handleAddToCart(product?._id)}>
+                {
+                    product?.totalStock === 0 ?
+                        (<Button className="w-full opacity-50 cursor-not-allowed" disabled>
+                            Out Of Stock
+                        </Button>)
+                        : 
+                        (<Button className="w-full" onClick={()=>handleAddToCart(product?._id)}>
                         Add To Cart
                     </Button>
-
-                </CardFooter>
+)
+                }
+            </CardFooter>
 
         </Card>
     )

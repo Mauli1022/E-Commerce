@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Filter from "../../components/Shopping/Filter"
-import { DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuRadioGroup, 
-  DropdownMenuRadioItem, 
-  DropdownMenuTrigger, 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
 } from '../../components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDownIcon } from 'lucide-react'
@@ -13,12 +14,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // Thunk
 import { fetchAllShoppingProducts, fetchProductDetails } from "../../store/Shop/shoppingProductSlice.js"
-import { addToCart,fetchCartItems } from "../../store/cart-slice/index.js"
+import { addToCart, fetchCartItems } from "../../store/cart-slice/index.js"
 
 import ShoppingProductTile from '../../components/Shopping/ShoppingProductTile'
 import ShoppingProductDetails from '../../components/Shopping/ShoppingProductDetails'
 import { useSearchParams } from 'react-router-dom'
 import { useToast } from '@/components/Common/hooks/use-toast'
+
 
 function createSearchParamsHelper(filtersParams) {
   const queryParams = []
@@ -39,22 +41,22 @@ export default function ShoppingListing() {
 
   const dispatch = useDispatch();
   // get the userId from the Auth-Slice
-  const { user } = useSelector(state=>state.auth)
+  const { user } = useSelector(state => state.auth)
 
   const { allProduct, productDetails } = useSelector(state => state.shopProduct)
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
   const [searchParams, setSearchParams] = useSearchParams()
   const [openDetailsDialog, setOpenDialogs] = useState(false)
-  const {toast} = useToast()
+  const { toast } = useToast()
+
+  // const categorySearchParams = searchParams.get('category')
 
   function handleSort(value) {
-    // console.log(value);
     setSort(value)
   }
 
   function handleFilter(getSectionId, getCorrentOption) {
-    // console.log(getCorrentOption, getSectionId);
 
     let cpyFilters = { ...filters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId)
@@ -74,7 +76,6 @@ export default function ShoppingListing() {
     }
 
     setFilters(cpyFilters)
-    // console.log(filters);
 
     // when we refresh the page we need to get all the previous value in category brand 
     // so we stores it in sessionStorage 
@@ -83,39 +84,39 @@ export default function ShoppingListing() {
   }
 
   // function to get product Id
-  function handleGetProductDetails(getCurrentProductId){
-    dispatch(fetchProductDetails(getCurrentProductId))    
+  function handleGetProductDetails(getCurrentProductId) {
+    dispatch(fetchProductDetails(getCurrentProductId))
   }
   // Function to handle Add to cart functionality
-  function handleAddToCart(getCurrentProductId){
-    
+  function handleAddToCart(getCurrentProductId) {
+
     dispatch(addToCart({
-      userId : user.id,
-      productId : getCurrentProductId,
-      quantity : 1
+      userId: user.id,
+      productId: getCurrentProductId,
+      quantity: 1
     }))
-    .then(data=>{
-      if(data?.payload?.success){
-        dispatch(fetchCartItems(user?.id))
-        toast({
-          title : data?.payload?.message
-        })
-      }
-    })
-    .catch(error=>console.error(error))
+      .then(data => {
+        if (data?.payload?.success) {
+          dispatch(fetchCartItems(user?.id))
+          toast({
+            title: data?.payload?.message
+          })
+        }
+      })
+      .catch(error => console.error(error))
   }
 
+  const categorySearchParams = searchParams.get('category')
   useEffect(() => {
     setSort("price-lowtohigh")
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {})
-  }, [])
+  }, [categorySearchParams])
 
   // Fetch List of Product
   useEffect(() => {
 
     if (filters !== null && sort !== null)
       dispatch(fetchAllShoppingProducts({ filterParams: filters, sortParams: sort }))
-    // .then((data)=>console.log("Payload ",data))
   }, [dispatch, sort, filters])
 
   useEffect(() => {
@@ -125,11 +126,13 @@ export default function ShoppingListing() {
     }
   }, [filters])
 
-  useEffect(()=>{
-    if(productDetails !== null){
+  useEffect(() => {
+    if (productDetails !== null) {
       setOpenDialogs(true)
     }
-  },[productDetails])
+  }, [productDetails])
+
+  
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6'>
@@ -180,10 +183,10 @@ export default function ShoppingListing() {
       </div>
 
       {/* Product Details Component */}
-      <ShoppingProductDetails 
-      open={openDetailsDialog} 
-      setOpen={setOpenDialogs} 
-      productDetails={productDetails} 
+      <ShoppingProductDetails
+        open={openDetailsDialog}
+        setOpen={setOpenDialogs}
+        productDetails={productDetails}
       />
     </div>
   )

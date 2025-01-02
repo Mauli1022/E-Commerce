@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { House, Menu, ShoppingCart, UserCheck, LogOut } from 'lucide-react'
 import { Sheet, SheetTrigger, SheetContent } from '../../components/ui/sheet'
 import { Button } from '../ui/button'
@@ -18,32 +18,37 @@ import { Label } from '../ui/label'
 function MenuItems() {
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const [ searchParams , setSearchParams] = useSearchParams()
 
-  function handleNavigate(getCurrentMenuItem){
+  function handleNavigate(getCurrentMenuItem) {
     // console.log("GetCurrentMenuItem",getCurrentMenuItem);
-    
+
     sessionStorage.removeItem('filters')
 
-    const currentFilter = getCurrentMenuItem.id !== 'home' ?  
-    {
-      category : [getCurrentMenuItem.id]
-    } : null
-    sessionStorage.setItem('filters',JSON.stringify(currentFilter))
+    const currentFilter = getCurrentMenuItem.id !== 'home' && getCurrentMenuItem.id !== 'products'
+      ? {
+        category: [getCurrentMenuItem.id]
+      } : null
+    sessionStorage.setItem('filters', JSON.stringify(currentFilter))
 
-    navigate(getCurrentMenuItem.path)
+    location.pathname.includes('listing') && currentFilter !== null ?
+    setSearchParams(new URLSearchParams(`?category`)) : null
+
+    navigate(getCurrentMenuItem.path);
   }
 
-  return <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
+  return (
+  <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
     {
       shopViewHeaderMenuItems.map(menuItem => {
         return (
-          <Label 
+          <Label
+            onClick={() => handleNavigate(menuItem)}
 
-          onClick={()=>handleNavigate(menuItem)}
-
-          key={menuItem.id} 
-          to={menuItem.path} 
-          className='text-sm font-medium font-serif cursor-pointer'
+            key={menuItem.id}
+            to={menuItem.path}
+            className='text-sm font-medium font-serif cursor-pointer'
           >
             {menuItem.label.toUpperCase()}
           </Label>
@@ -51,6 +56,7 @@ function MenuItems() {
       })
     }
   </nav>
+  )
 }
 
 function HeaderRightContent() {
@@ -59,34 +65,33 @@ function HeaderRightContent() {
   const { user } = useSelector(state => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { cartItems } = useSelector(state=>state.shoppingCart)
-  // console.log(cartItems);
-  
+  const { cartItems } = useSelector(state => state.shoppingCart)
+
 
   // Function to handle Logout user
   function handleLogout() {
     dispatch(logOutUser())
   }
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchCartItems(user.id))
-  },[dispatch])
+  }, [dispatch])
 
   return <div className='flex lg:items-center lg:flex-row flex-col gap-4'>
-    <Sheet open={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}>
-    <Button variant="outline" size="icon" onClick={()=>setOpenCartSheet(true)}>
-      <ShoppingCart className="w-6 h-6" />
-      <span className='sr-only'>User Cart</span>
-    </Button>
-{/* Cart Item Wraper. */}
-    <CartWrapper 
-    setOpenCartSheet={setOpenCartSheet}
-    cartItems={
-      cartItems && 
-      cartItems.items && 
-      cartItems.items.length > 0 ? 
-      cartItems.items : []
-    }
-    />
+    <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+      <Button variant="outline" size="icon" onClick={() => setOpenCartSheet(true)}>
+        <ShoppingCart className="w-6 h-6" />
+        <span className='sr-only'>User Cart</span>
+      </Button>
+      {/* Cart Item Wraper. */}
+      <CartWrapper
+        setOpenCartSheet={setOpenCartSheet}
+        cartItems={
+          cartItems &&
+            cartItems.items &&
+            cartItems.items.length > 0 ?
+            cartItems.items : []
+        }
+      />
 
     </Sheet>
 
@@ -104,7 +109,7 @@ function HeaderRightContent() {
         <DropdownMenuLabel>Logged in as {user.userName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={()=>navigate("/shop/account")}>
+        <DropdownMenuItem onClick={() => navigate("/shop/account")}>
           <UserCheck className='mr-2 h-4 w-4' />
           Account
         </DropdownMenuItem>
@@ -116,7 +121,6 @@ function HeaderRightContent() {
         </DropdownMenuItem>
 
       </DropdownMenuContent>
-
     </DropdownMenu>
   </div>
 }
@@ -147,7 +151,7 @@ export default function ShoppingHeader() {
             <SheetContent side="left" className="w-full max-w-xs">
               <DialogDescription className="sr-only">This is the menu Items"</DialogDescription>
               <MenuItems />
-              <HeaderRightContent/>
+              <HeaderRightContent />
             </SheetContent>
           </>
         </Sheet>
@@ -160,7 +164,7 @@ export default function ShoppingHeader() {
           {/* {isAuthenticated ?  */}
           <div className='hidden lg:block'>
             <HeaderRightContent />
-          </div> 
+          </div>
           {/* // : null} */}
         </div>
       </div>
