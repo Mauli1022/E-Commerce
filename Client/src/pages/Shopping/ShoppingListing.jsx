@@ -32,7 +32,6 @@ function createSearchParamsHelper(filtersParams) {
       queryParams.push(`${key}=${encodeURIComponent(paramValue)}`)
     }
   }
-  // console.log(queryParams);
 
   return queryParams.join('&')
 }
@@ -42,6 +41,7 @@ export default function ShoppingListing() {
   const dispatch = useDispatch();
   // get the userId from the Auth-Slice
   const { user } = useSelector(state => state.auth)
+  const { cartItems } = useSelector(state=>state.shoppingCart)
 
   const { allProduct, productDetails } = useSelector(state => state.shopProduct)
   const [filters, setFilters] = useState({})
@@ -88,7 +88,24 @@ export default function ShoppingListing() {
     dispatch(fetchProductDetails(getCurrentProductId))
   }
   // Function to handle Add to cart functionality
-  function handleAddToCart(getCurrentProductId) {
+  function handleAddToCart(getCurrentProductId, getTotalStock) {
+
+    let getCartItems = cartItems.items || []
+    if(getCartItems.length){
+      const indexOfCurrentItem = getCartItems.findIndex(item=>item.productId === getCurrentProductId)
+      
+      if(indexOfCurrentItem > -1){
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+       
+        if(getQuantity + 1 > getTotalStock ){
+          toast({
+            title : `Only ${getQuantity} Quantity Can be added for this Item `,
+            variant : 'destructive'
+          })
+          return;
+        }
+      }
+    }
 
     dispatch(addToCart({
       userId: user.id,
@@ -132,7 +149,6 @@ export default function ShoppingListing() {
     }
   }, [productDetails])
 
-  
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6'>

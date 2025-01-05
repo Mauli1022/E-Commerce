@@ -6,6 +6,7 @@ import shoppingCartSliceReducer from "./cart-slice/index.js"
 import addressSliceReducer from "./address-slice/index.js"
 import shoppingOrderSliceReducer from "./order-slice/index.js"
 import adminOrderSliceReducer from "./Admin/Orders-Slice/adminOrdersSlice.js"
+import searchProductSliceReducer from "./search-slice/searchSlice.js"
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
         shoppingCart : shoppingCartSliceReducer,
         address : addressSliceReducer,
         shoppingOrder : shoppingOrderSliceReducer,
-        adminOrder : adminOrderSliceReducer
+        adminOrder : adminOrderSliceReducer,
+        searchProduct : searchProductSliceReducer
     },
   })

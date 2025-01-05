@@ -11,8 +11,11 @@ import { deleteCartItem, updateCartItems } from "../../store/cart-slice/index.js
 import { useToast } from '../Common/hooks/use-toast'
 
 export default function CartItemsContent({ item }) {
-  // console.log(item);
+
   const { user } = useSelector(state => state.auth)
+  const { cartItems } = useSelector(state=>state.shoppingCart)
+  const { allProduct } = useSelector(state => state.shopProduct)
+
   const { toast } = useToast()
 
   const dispatch = useDispatch()
@@ -32,6 +35,38 @@ export default function CartItemsContent({ item }) {
   }
   // Function to handle update quantity
   function handleUpdateQuantity(getCartItem,typeOfAction){
+
+    
+    if(typeOfAction == 'plus') {
+
+      let getCartItems = cartItems.items || []
+      // console.log(getCartItems.length);
+      
+      if(getCartItems.length){
+        const indexOfCurrentCartItem = getCartItems.findIndex(item=>item.productId === getCartItem?.productId)
+        
+        const getCurrentProductIndex = allProduct.findIndex(product=>product?._id === getCartItem?.productId)
+        
+        const getTotalStock = allProduct[getCurrentProductIndex].totalStock;
+        console.log(cartItems);
+        
+        
+        if(indexOfCurrentCartItem > -1){
+          const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
+          // console.log("Get-Quantity",getQuantity);
+         
+          if(getQuantity + 1 > getTotalStock ){
+            toast({
+              title : `Only ${getQuantity} Quantity Can be added for this Item `,
+              variant : 'destructive'
+            })
+            return;
+          }
+        }
+      }
+
+    }
+
     dispatch(updateCartItems(
       {
         userId : user?.id,

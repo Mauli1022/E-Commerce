@@ -27,6 +27,8 @@ export default function CheckAuth({isAuthenticated,user,children}) {
             location.pathname.includes("/register")
         )
     ){
+        console.log(user?.role);
+        
         if (user?.role == 'admin') {
             return<Navigate to={'/admin/dashboard'}/>
         }else{
