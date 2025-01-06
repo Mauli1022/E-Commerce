@@ -16,8 +16,8 @@ export default function ShoppingProductTile({
             <div onClick={() => handleGetProductDetails(product._id)} className='hover:cursor-pointer'>
                 <div className='relative'>
                     <img
-                        src={product.image}
-                        alt={product.title}
+                        src={product?.image}
+                        alt={product?.title}
                         className='w-full h-[150px] object-cover rounded-t-lg'
                     />
                     {

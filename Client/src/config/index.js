@@ -148,6 +148,11 @@ export const addProductFormElements = [
       label : "Footware",
       path : "/shop/listing"
     },  
+    {
+      id : "search",
+      label : "Search",
+      path : "/shop/search"
+    },  
   ]
 
   export const categoryOptionsMap = {

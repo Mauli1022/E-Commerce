@@ -16,6 +16,8 @@ import ShoppingListing from './pages/Shopping/ShoppingListing'
 import ShoppingCheckOut from './pages/Shopping/ShoppingCheckOut'
 import ShoppingAccount from './pages/Shopping/ShoppingAccount'
 import PayPalReturn from './pages/Shopping/PayPalReturn'
+import SearchProducts from './pages/Shopping/SearchProducts'
+
 // Not Found Page
 import NotFoundPage from './pages/Not-Found/NotFoundPage'
 import CheckAuth from './components/Common/CheckAuth'
@@ -82,6 +84,7 @@ export default function App() {
             <Route path='account' element={<ShoppingAccount />} />
             <Route path='paypal-return' element={<PayPalReturn/>} />
             <Route path='payment-success' element={<PaymentSuccess/>}/>
+            <Route path='search' element={<SearchProducts/>}/>
           </Route>
           {/* Not Found Page */}
           <Route path='*' element={<NotFoundPage />} />

@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { addToCart, fetchCartItems } from "../../store/cart-slice/index.js"
 import { useToast } from "../Common/hooks/use-toast"
 import { setProductDetails } from "../../store/Shop/shoppingProductSlice.js"
+import { useEffect } from "react"
 
 export default function ShoppingProductDetails({ 
     open, 
     setOpen, 
     productDetails,
-    
  }) {
 
     const dispatch = useDispatch()
