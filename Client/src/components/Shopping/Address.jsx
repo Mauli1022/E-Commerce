@@ -17,7 +17,7 @@ import { useToast } from '../Common/hooks/use-toast.js'
 import AddressCard from './AddressCard.jsx'
 
 
-export default function Address({ setCurrentSelectedAddress }) {
+export default function Address({ setCurrentSelectedAddress, selectedId }) {
 
     const initialState = {
         address : "",
@@ -118,7 +118,7 @@ export default function Address({ setCurrentSelectedAddress }) {
         dispatch(fetchAllAddress({userId : user?.id}))
     },[dispatch])
 
-    // console.log(userAddress);
+    // console.log(selectedId);
     
   return (
     <Card>
@@ -132,6 +132,7 @@ export default function Address({ setCurrentSelectedAddress }) {
                     key={sindleAddress._id}
                     handleDeleteAddress={handleDeleteAddress}
                     handleEditAddress={handleEditAddress}
+                    selectedId={selectedId}
                     />) : null
             }
         </div>

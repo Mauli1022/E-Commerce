@@ -14,7 +14,7 @@ export const createReview = createAsyncThunk("/shop/createReviews",
 
 export const fetchReview = createAsyncThunk("/shop/fetchReview",
     async(productId)=>{
-        console.log("productId:",productId);
+        // console.log("productId:",productId);
         
         const response = await axios.get(`http://localhost:8000/api/product-review/get-review/${productId}`)
         return response.data
@@ -30,7 +30,7 @@ const productReviewSlice = createSlice({
             state.isLoading = true
         })
         .addCase(fetchReview.fulfilled, (state, action)=>{
-            console.log(action.payload.data);
+            // console.log(action.payload.data);
             
             state.isLoading = false
             state.reviews = action.payload.data

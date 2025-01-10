@@ -37,9 +37,9 @@ export default function PayPalReturn() {
 
   return (
     <Card>
-
-      <CardTitle className="font-serif font-normal p-4"> Processing Payment...Please Wait!</CardTitle>
-
+      <CardTitle className="font-serif font-normal p-4">
+        Processing Payment...Please Wait!
+        </CardTitle>
     </Card>
   )
 }

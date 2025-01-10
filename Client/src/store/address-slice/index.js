@@ -37,7 +37,7 @@ export const updateAddress = createAsyncThunk(
 export const deleteAddress = createAsyncThunk(
     "/address/deleteAddress",
     async ({userId,addressId})=>{
-        console.log("UserId",userId,"addressId",addressId);
+        // console.log("UserId",userId,"addressId",addressId);
         
         const response = await axios.delete(`http://localhost:8000/api/address/delete-address/${userId}/${addressId}`)
         return response.data

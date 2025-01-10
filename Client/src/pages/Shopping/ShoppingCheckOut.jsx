@@ -10,7 +10,6 @@ import CartItemsContent from "../../components/Shopping/CartItemsContent"
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewOrder } from "../../store/order-slice/index.js"
 import { useToast } from '@/components/Common/hooks/use-toast'
-import { Variable } from 'lucide-react'
 
 
 export default function ShoppingCheckOut() {
@@ -115,7 +114,7 @@ export default function ShoppingCheckOut() {
 
       {/* Address */}
       <div className='grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5 p-5'>
-        <Address setCurrentSelectedAddress={setCurrentSelectedAddress} />
+        <Address setCurrentSelectedAddress={setCurrentSelectedAddress} selectedId={currentSelectedAddress} />
         <div className='flex flex-col gap-4'>
           {
             cartItems && cartItems.items && cartItems.items.length > 0 ?
@@ -132,7 +131,11 @@ export default function ShoppingCheckOut() {
           <div className=' mt-4 w-full'>
             <Button className="w-full"
               onClick={handleInitiatePaypalPayment}
-            >Checkout With Paypal</Button>
+            >
+              {
+                isPaymentStart ? "Processing Paypal Payment..." : "Checkout with Paypal" 
+              }
+            </Button>
           </div>
 
         </div>
