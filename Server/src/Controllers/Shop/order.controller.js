@@ -121,6 +121,7 @@ export async function capturePayment(req, res) {
         order.paymentId = paymentId
         order.payerId = payerId
 
+        await order.save();
         for(let item of order.cartItems){
             let product = await Product.findById((item.productId))
 

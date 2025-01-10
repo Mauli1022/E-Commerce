@@ -29,6 +29,7 @@ import addressRouter from "./Routes/Address/address.route.js"
 import createOrderRouter from "./Routes/Shop/orders.route.js"
 import adminOrderRouter from "./Routes/Admin/adminOrder.route.js"
 import searchRouter from "./Routes/Shop/search.route.js"
+import productReviewRouter from "./Routes/Shop/productReview.route.js"
 
 app.use("/api/auth",userRoute)
 app.use("/api/admin",adminProductRouter)
@@ -38,5 +39,6 @@ app.use("/api/address",addressRouter)
 app.use("/api/order",createOrderRouter)
 app.use("/api/admin-order",adminOrderRouter)
 app.use("/api/search-shop",searchRouter)
+app.use('/api/product-review',productReviewRouter)
 
 export { app }; 

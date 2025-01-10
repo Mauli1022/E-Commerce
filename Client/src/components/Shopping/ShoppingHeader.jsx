@@ -77,11 +77,19 @@ function HeaderRightContent() {
   useEffect(() => {
     dispatch(fetchCartItems(user.id))
   }, [dispatch])
+// console.log(cartItems?.items.length, " cartItems");
 
   return <div className='flex lg:items-center lg:flex-row flex-col gap-4'>
     <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
-      <Button variant="outline" size="icon" onClick={() => setOpenCartSheet(true)}>
+      <Button 
+      variant="outline" 
+      size="icon" 
+      onClick={() => setOpenCartSheet(true)}
+      className="relative"
+      >
+
         <ShoppingCart className="w-6 h-6" />
+        <span className='absolute top-[-1px] right-[4px] text-sm '>{cartItems?.items?.length || 0}</span>
         <span className='sr-only'>User Cart</span>
       </Button>
       {/* Cart Item Wraper. */}

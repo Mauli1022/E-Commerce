@@ -5,11 +5,19 @@ export default function CheckAuth({isAuthenticated,user,children}) {
     
     const location = useLocation()
 
-    // console.log(user);
-    // console.log(isAuthenticated);
-    // console.log(location.pathname);
-    
+    if(location.pathname === "/"){
 
+        if(!isAuthenticated){
+            return <Navigate to="/auth/login"/>
+        }else{
+            if (user?.role == 'admin') {
+                return<Navigate to={'/admin/dashboard'}/>
+            }else{
+                return <Navigate to={'/shop/home'}/>
+            }
+        }
+    }
+    
     if(
         !isAuthenticated && 
         !(
@@ -27,7 +35,6 @@ export default function CheckAuth({isAuthenticated,user,children}) {
             location.pathname.includes("/register")
         )
     ){
-        console.log(user?.role);
         
         if (user?.role == 'admin') {
             return<Navigate to={'/admin/dashboard'}/>

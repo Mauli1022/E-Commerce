@@ -34,28 +34,36 @@ import PaymentSuccess from './pages/Shopping/PaymentSuccess'
 
 export default function App() {
 
-  const {user, isAuthenticated, isLoading} = useSelector(state=>state.auth)
+  const { user, isAuthenticated, isLoading } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(checkAuth())
-  },[dispatch])
-  
-  if(isLoading) return <Skeleton className="w-[600px] h-[600px] bg-black" />
+  }, [dispatch])
+
+  if (isLoading) return <Skeleton className="w-[600px] h-[600px] bg-black" />
   // console.log(location.pathname);
-  
-  
+
+
   return (
     <>
       <div className='flex flex-col overflow-hidden bg-white'>
         {/* Common Components */}
+        
         <Routes>
+          <Route
+          path='/' element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+
+            </CheckAuth>
+          }
+          />
 
           <Route path='/auth' element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <Layout />
             </CheckAuth>
-          }  >
+          }>
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
           </Route>
@@ -82,15 +90,15 @@ export default function App() {
             <Route path='listing' element={<ShoppingListing />} />
             <Route path='checkout' element={<ShoppingCheckOut />} />
             <Route path='account' element={<ShoppingAccount />} />
-            <Route path='paypal-return' element={<PayPalReturn/>} />
-            <Route path='payment-success' element={<PaymentSuccess/>}/>
-            <Route path='search' element={<SearchProducts/>}/>
+            <Route path='paypal-return' element={<PayPalReturn />} />
+            <Route path='payment-success' element={<PaymentSuccess />} />
+            <Route path='search' element={<SearchProducts />} />
           </Route>
           {/* Not Found Page */}
           <Route path='*' element={<NotFoundPage />} />
 
           {/* UnAuth Page */}
-          <Route path='/unauth-page' element={<UnauthPage/>}/>
+          <Route path='/unauth-page' element={<UnauthPage />} />
 
         </Routes>
       </div>
