@@ -14,13 +14,13 @@ export default function ImageUploadComponent({
   setUploadedImageUrl,
   imageLoadingState,
   setImageLoadingState,
-  isEditedMode 
+  isEditedMode ,
+  isCustomStyling = false
 }) {
 
   const inputRef = useRef(null)
 
   function handleImageFileChange(e){
-    // console.log(e.target.files);
     const selectedFile = e.target.files?.[0]
 
     if (selectedFile)setImageFile(selectedFile)
@@ -28,7 +28,6 @@ export default function ImageUploadComponent({
   }
   function handleDragOver(e){
     e.preventDefault();
-
   }
   function handleDrop(e) {
     e.preventDefault()
@@ -41,7 +40,6 @@ function handleRemoveImage(){
     inputRef.current.value = ''
   }
 }
-// console.log("upload Image Url",uploadedImageUrl);
 
 async function uploadImageToCloudinary(){
   setImageLoadingState(true)
@@ -66,11 +64,10 @@ useEffect(()=>{
 if(imageFile !==null ) uploadImageToCloudinary()
 },[imageFile])
 
-// console.log(isEditedMode);
 
 
   return (
-    <div className='w-full max-w-md mx-auto'>
+    <div className={`w-full ${isCustomStyling ? '' : "max-w-md mx-auto" }`}>
       <Label className='text-lg font-semibold mb-2 block'>Upload Image</Label>
       <div 
       className={`border-2 border-dashed rounded-lg p-4 mt-4 ${isEditedMode ? "opacity-20": ""}`}

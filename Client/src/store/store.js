@@ -8,6 +8,7 @@ import shoppingOrderSliceReducer from "./order-slice/index.js"
 import adminOrderSliceReducer from "./Admin/Orders-Slice/adminOrdersSlice.js"
 import searchProductSliceReducer from "./search-slice/searchSlice.js"
 import productReviewSliceReducer from "./review-slice/productReviewSlice.js"
+import commonFeatureSliceReducer from "./common-slice/commonSlice.js"
 
 export const store = configureStore({
     reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
         shoppingOrder : shoppingOrderSliceReducer,
         adminOrder : adminOrderSliceReducer,
         searchProduct : searchProductSliceReducer,
-        producrReview : productReviewSliceReducer
+        producrReview : productReviewSliceReducer,
+        commonFeature : commonFeatureSliceReducer
     },
   })

@@ -9,10 +9,6 @@ cloudinary.config({
     cloud_name : `${process.env.CLOUDINARY_CLOUDNAME}`,
     api_key : `${process.env.CLOUDINARY_API_KEY}`,
     api_secret : `${process.env.CLOUDINARY_API_SECRET}`
-
-    // cloud_name : "dhzlmnqyj",
-    // api_key : "865442242552812",
-    // api_secret : "2T5b7NoaBEVf8GNJm5ftti37blw"
  });
 
 
