@@ -16,7 +16,7 @@ export const addFeatureImage = createAsyncThunk("/common/addImage",
 
 export const getFeatureImage = createAsyncThunk("/common/fetchImage",
     async()=>{
-        const response = await axios.post("http://localhost:8000/api/feature-image/get-image")
+        const response = await axios.get("http://localhost:8000/api/feature-image/get-image")
         return response.data;
     }
 )

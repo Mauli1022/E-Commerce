@@ -28,7 +28,7 @@ export async function addFetureImage(req,res) {
 
         res.status(201).send({
             success : "true",
-            data : featureImages
+            message : "Image Successfully Added."
         })
         
     } catch (error) {

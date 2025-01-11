@@ -17,13 +17,19 @@ export default function AdminDashBoard() {
 
   function handleUploadFeatureImage(){
     dispatch(addFeatureImage(uploadedImageUrl))
-    .then((data)=>console.log(data))
+    .then((data)=>{
+      if(data?.payload?.success){
+        dispatch(getFeatureImage())
+        setImageFile(null)
+        setUploadedImageUrl("")
+      }
+    })
   }
 
   useEffect(()=>{
-    // dispatch(getFeatureImage())
+    dispatch(getFeatureImage())
   },[dispatch])
-  console.log(images);
+  // console.log(images);
   
 
   return (
@@ -41,6 +47,22 @@ export default function AdminDashBoard() {
         isCustomStyling={true}
       />
       <Button className="mt-2 w-full" onClick={handleUploadFeatureImage}>Upload</Button>
+      {/* delete functionality */}
+      <div className="flex flex-col gap-3 mt-5">
+        {
+          images && images.length > 0 ?
+          images.map((singleImages)=>{
+            return (
+              <div key={singleImages?._id}
+              className="relative m-2">
+                <img src={singleImages?.image}
+                className="w-full h-[300px] object-cover rounded-sm"
+                />
+              </div>
+            )
+          }) : null
+        }
+      </div>
     </div>
   )
 }

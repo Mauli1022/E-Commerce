@@ -23,6 +23,7 @@ import { Card, CardContent } from "../../components/ui/card"
 // Async Thunk
 import { fetchAllShoppingProducts, fetchProductDetails } from "../../store/Shop/shoppingProductSlice.js"
 import { addToCart, fetchCartItems } from "../../store/cart-slice/index.js"
+import { getFeatureImage } from "../../store/common-slice/commonSlice.js"
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -54,11 +55,12 @@ const brandWithIcon = [
 
 export default function ShoppingHome() {
 
-  const slides = [bannerOne, bannerTwo, bannerThree]
+  // const slides = [bannerOne, bannerTwo, bannerThree]
   const [openDetailsDialog, setOpenDialogs] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const { allProduct,productDetails } = useSelector(state => state.shopProduct)
   const { user } = useSelector(state=>state.auth);
+  const { images } = useSelector(state=>state.commonFeature)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -102,11 +104,11 @@ export default function ShoppingHome() {
   // Change the slide Automatically
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide(prevSlide => (prevSlide + 1) % slides.length)
+      setCurrentSlide(prevSlide => (prevSlide + 1) % images.length)
     }, 10000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [images])
   // useEffect to fetch All Product
   useEffect(() => {
     dispatch(fetchAllShoppingProducts({ filterParams: {}, sortParams: "price-lowtohigh" }))
@@ -118,24 +120,31 @@ export default function ShoppingHome() {
       setOpenDialogs(true)
     }
   },[productDetails])
+
+    useEffect(()=>{
+      dispatch(getFeatureImage())
+    },[dispatch])
+
   
   return (
     <div className='flex flex-col min-h-screen'>
 
       <div className='relative w-full h-[500px] overflow-hidden'>
         {
-          slides.map((slide, index) => {
+          images && images.length ?
+          images.map((slide, index) => {
             return (
-              <img src={slide} alt={`banner-${index}`} key={index}
-                className={`${index === currentSlide ? "opacity-100 " : "opacity-0"} absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`} />
+              <img src={slide.image} alt={`banner-${index}`} key={index}
+                className={`${index === currentSlide ? "opacity-100 " : "opacity-0"} 
+                absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`} />
             )
-          })
+          }) : null
         }
         <Button
           variant="outline"
           size="icon"
           className="absolute top-1/2 left-4 transform -transy1/2 bg-white/80"
-          onClick={() => setCurrentSlide(prevSlide => (prevSlide - 1 + slides.length) % slides.length)}
+          onClick={() => setCurrentSlide(prevSlide => (prevSlide - 1 + images.length) % images.length)}
         >
           <ChevronLeftIcon className='h-4 w-4' />
         </Button>
@@ -144,7 +153,7 @@ export default function ShoppingHome() {
           variant="outline"
           size="icon"
           className="absolute top-1/2 right-4 transform -transy1/2 bg-white/80"
-          onClick={() => setCurrentSlide(prevSlide => (prevSlide + 1) % slides.length)}
+          onClick={() => setCurrentSlide(prevSlide => (prevSlide + 1) % images.length)}
         >
           <ChevronRightIcon className='h-4 w-4' />
         </Button>
