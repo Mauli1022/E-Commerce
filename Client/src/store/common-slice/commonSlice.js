@@ -21,6 +21,15 @@ export const getFeatureImage = createAsyncThunk("/common/fetchImage",
     }
 )
 
+export const deleteFeatureImage = createAsyncThunk("/common/deleteFeatureImage",
+    async(id)=>{
+        const response = await axios.delete(`http://localhost:8000/api/feature-image/delete-image/${id}`)
+        return response.data;
+    }
+)
+
+
+
 const commonSlice = createSlice({
     name : "commonSlice",
     initialState,

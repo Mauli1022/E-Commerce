@@ -63,3 +63,31 @@ export async function getFeatureImages(req,res) {
     }
 
 }
+
+export async function deleteFeatureImage(req,res) {
+    try {
+
+        const { id } = req.params;
+
+        const deletedImage = await Feature.findByIdAndDelete({_id : id})
+
+        if(!deletedImage){
+            return res.status(404).send({
+                success : false,
+                message : "Image not found or already deleted"
+            })
+        }
+
+        res.status(200).send({
+            success : true,
+            message : "Image deleted Successfully."
+        })
+
+    } catch (error) {
+        console.error("Delete Feature Image Controller : ", error);
+        res.status(500).send({
+            success : false,
+            message : "Delete feature Image Controller Error"
+        })
+    }    
+}

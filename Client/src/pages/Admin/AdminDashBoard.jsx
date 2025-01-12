@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import ImageUploadComponent from "../../components/Admin/ImageUploadComponent"
 import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/components/Common/hooks/use-toast";
 
 // Async thunk
-import { addFeatureImage, getFeatureImage } from "../../store/common-slice/commonSlice.js"
+import { addFeatureImage, getFeatureImage, deleteFeatureImage } from "../../store/common-slice/commonSlice.js"
+
 
 export default function AdminDashBoard() {
 
@@ -14,6 +16,7 @@ export default function AdminDashBoard() {
 
   const dispatch = useDispatch();
   const { images } = useSelector(state=>state.commonFeature)
+  const { toast } = useToast()
 
   function handleUploadFeatureImage(){
     dispatch(addFeatureImage(uploadedImageUrl))
@@ -22,6 +25,19 @@ export default function AdminDashBoard() {
         dispatch(getFeatureImage())
         setImageFile(null)
         setUploadedImageUrl("")
+      }
+    })
+  }
+
+  function handleDeleteImage(id){
+    dispatch(deleteFeatureImage(id))
+    .then((data)=>{
+      if(data?.payload?.success){
+        toast({
+          title : data?.payload?.message 
+        })
+        dispatch(getFeatureImage())
+
       }
     })
   }
@@ -54,10 +70,17 @@ export default function AdminDashBoard() {
           images.map((singleImages)=>{
             return (
               <div key={singleImages?._id}
-              className="relative m-2">
+              className="relative m-2 group"
+              >
                 <img src={singleImages?.image}
-                className="w-full h-[300px] object-cover rounded-sm"
+                className="w-full h-[300px] object-cover rounded-sm "
                 />
+                <Button
+                className="absolute top-4 right-4 bg-transparent text-3xl  text-orange-300 border border-orange-300
+                hover:text-red-500 hover:border-red-500 hover:bg-transparent
+                border-transparent rounded-md font-serif"
+                onClick={()=>handleDeleteImage(singleImages?._id)}
+                >X</Button>
               </div>
             )
           }) : null
