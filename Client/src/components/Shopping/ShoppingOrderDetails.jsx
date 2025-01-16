@@ -15,7 +15,16 @@ export default function ShoppingOrderDetails({ orderDetails }) {
 
     return (
         <div>
-            <DialogContent className=" max-h-[90vh] overflow-y-scroll scrollbar-hide sm:max-w-[600px] ">
+            <DialogContent className="w-5/6 overflow-y-scroll scrollbar-hide 
+            lg:max-h-[90vh] rounded-lg
+            [&::-webkit-scrollbar]:w-[6px]
+          [&::-webkit-scrollbar-track]:bg-gray-100
+          [&::-webkit-scrollbar-thumb]:bg-gray-400
+            [&::-webkit-scrollbar-thumb]:rounded-full
+          dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+            [&::-webkit-scrollbar-track]:rounded-full
+          dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+            ">
                 <div className='grid gap-6 overflow-y-auto'>
                     <div className='grid gap-2'>
                         <div className='flex items-center justify-between mt-9'>

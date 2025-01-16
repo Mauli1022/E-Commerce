@@ -13,7 +13,7 @@ const initialState = {
 // async thunk to fetch all Order of users
 export const getAllUsersOrderForAdmin = createAsyncThunk("/order/getAllOrderofAllUserForAdmin",
     async()=>{
-        const response = await axios.get(`http://localhost:8000/api/admin-order/all-users-order`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin-order/all-users-order`);
 
         return response.data;
 })
@@ -21,14 +21,14 @@ export const getAllUsersOrderForAdmin = createAsyncThunk("/order/getAllOrderofAl
 // async thunk to fetch single Order Details
 export const getSingleOrderDetailsForAdmin = createAsyncThunk("/order/getSingleOrderDetailsforAdmin",
     async(id)=>{
-        const response = await axios.get(`http://localhost:8000/api/admin-order/admin-order-details/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin-order/admin-order-details/${id}`);
         return response.data;
 })
 
 // Async thunk to update Order Status
 export const updateOrderStatus = createAsyncThunk("/order/updateOrderStatus",
     async({id,orderStatus})=>{
-        const response = await axios.put(`http://localhost:8000/api/admin-order/update-order-status/${id}`,{orderStatus});
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/admin-order/update-order-status/${id}`,{orderStatus});
         return response.data;
 })
 

@@ -45,7 +45,7 @@ async function uploadImageToCloudinary(){
   setImageLoadingState(true)
   const data = new FormData()
   data.append("my_file",imageFile)
-  await axios.post("http://localhost:8000/api/admin/upload-image",data)
+  await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/upload-image`,data)
   .then(response=>{
     if(response.data?.success){ 
       setUploadedImageUrl(response.data.data.url) 

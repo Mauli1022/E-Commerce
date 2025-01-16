@@ -122,7 +122,7 @@ export default function Address({ setCurrentSelectedAddress, selectedId }) {
     
   return (
     <Card>
-        <div className='mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2'>
+        <div className='mb-5 p-3 grid lg:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-2'>
             {
                 userAddress && userAddress.length > 0 ?
                 userAddress.map(sindleAddress=>

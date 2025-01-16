@@ -4,38 +4,34 @@ import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 
 export default function AddressCard({
-  addressInfo, 
-  handleDeleteAddress, 
+  addressInfo,
+  handleDeleteAddress,
   handleEditAddress,
   setCurrentSelectedAddress,
   selectedId
 }) {
 
-  // useEffect(()=>{
-  //   console.log(addressInfo?._id === selectedId?._id)
-  // },[addressInfo, selectedId])
-  
 
   return (
-    <Card 
-    onClick={setCurrentSelectedAddress ? ()=>setCurrentSelectedAddress(addressInfo) : null}
-    className={`cursor-pointer`}
+    <Card
+      onClick={setCurrentSelectedAddress ? () => setCurrentSelectedAddress(addressInfo) : null}
+      className={`font-serif cursor-pointer 
+        ${selectedId?._id === addressInfo?._id
+          ? "border-orange-400 border-[4px]"
+          : "border-black"
+        }`}
     >
-       <CardContent className={`grid gap-3 font-serif p-2 h-[70%] w-full border rounded-sm ${selectedId?._id == addressInfo?.id ?
-      "border-orange-200" : "border-black"
-    }`}
-    >
-        <Label><span className='font-extrabold font-serif'>Address:</span> {addressInfo?.address}</Label>
-        <Label><span className='font-extrabold font-serif'>City:</span> {addressInfo?.city}</Label>
-        <Label><span className='font-extrabold font-serif'>Pincode:</span> {addressInfo?.pincode}</Label>
-        <Label><span className='font-extrabold font-serif'>Mobile No:</span> {addressInfo?.phone}</Label>
-        <Label><span className='font-extrabold font-serif'>Notes:</span> {addressInfo?.notes}</Label>
-       </CardContent>
-
-       <CardFooter className=" flex justify-between mt-2 ">
-        <Button onClick={()=>handleEditAddress(addressInfo)}>Edit</Button>
-        <Button onClick={()=>handleDeleteAddress(addressInfo._id)}>Delete</Button>
-       </CardFooter>
+      <CardContent className="grid p-4 gap-4 h-48">
+        <Label>Address: {addressInfo?.address}</Label>
+        <Label>City: {addressInfo?.city}</Label>
+        <Label>pincode: {addressInfo?.pincode}</Label>
+        <Label>Phone: {addressInfo?.phone}</Label>
+        <Label>Notes: {addressInfo?.notes}</Label>
+      </CardContent>
+      <CardFooter className="p-3 flex justify-between">
+        <Button onClick={() => handleEditAddress(addressInfo)}>Edit</Button>
+        <Button onClick={() => handleDeleteAddress(addressInfo)}>Delete</Button>
+      </CardFooter>
     </Card>
   )
 }

@@ -9,21 +9,21 @@ const initialState = {
 export const addFeatureImage = createAsyncThunk("/common/addImage",
     async(image)=>{
         
-        const response = await axios.post("http://localhost:8000/api/feature-image/add-image",{image})
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/feature-image/add-image`,{image})
         return response.data;
     }
 )
 
 export const getFeatureImage = createAsyncThunk("/common/fetchImage",
     async()=>{
-        const response = await axios.get("http://localhost:8000/api/feature-image/get-image")
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/feature-image/get-image`)
         return response.data;
     }
 )
 
 export const deleteFeatureImage = createAsyncThunk("/common/deleteFeatureImage",
     async(id)=>{
-        const response = await axios.delete(`http://localhost:8000/api/feature-image/delete-image/${id}`)
+        const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/feature-image/delete-image/${id}`)
         return response.data;
     }
 )

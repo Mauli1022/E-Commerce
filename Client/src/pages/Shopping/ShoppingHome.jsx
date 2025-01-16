@@ -124,7 +124,6 @@ export default function ShoppingHome() {
     useEffect(()=>{
       dispatch(getFeatureImage())
     },[dispatch])
-
   
   return (
     <div className='flex flex-col min-h-screen'>
@@ -134,9 +133,11 @@ export default function ShoppingHome() {
           images && images.length ?
           images.map((slide, index) => {
             return (
-              <img src={slide.image} alt={`banner-${index}`} key={index}
+              <div className=' ' key={index}>
+              <img src={slide.image} alt={`banner-${index}`} 
                 className={`${index === currentSlide ? "opacity-100 " : "opacity-0"} 
                 absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`} />
+              </div>
             )
           }) : null
         }

@@ -49,8 +49,15 @@ export default function ShoppingProductDetails({
                     setReviewMessage("")
                     dispatch(fetchReview(productDetails?._id))
                     toast({
-                        title: "Review Added Succssfully."
+                        title: data?.payload?.message || "Review Added Successfully"
                     })
+                } else {
+                    toast({
+                        title: data?.payload?.message || "You Can Only Add One Review.",
+                        variant: "destructive"
+                    })
+                    setRating(0);
+                    setReviewMessage("")
                 }
             })
     }
@@ -102,52 +109,76 @@ export default function ShoppingProductDetails({
         if (productDetails !== null) {
             dispatch(fetchReview(productDetails?._id))
         }
-    
+
     }, [productDetails])
 
-    const averageReview = reviews && reviews.length > 0 ? 
-     reviews.reduce((sum, reviewItem) => 
-        sum + reviewItem.reviewValue, 0) / reviews.length :
-     0;
+    const averageReview = reviews && reviews.length > 0 ?
+        reviews.reduce((sum, reviewItem) =>
+            sum + reviewItem.reviewValue, 0) / reviews.length :
+        0;
 
     return (
         <Dialog open={open} onOpenChange={handleDialogClose}>
             <DialogContent
-                className="grid grid-cols-2 gap-8 sm:p-2 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw] max-h-[650px]">
-                <div className="relative overflow-hidden rounded-lg">
-                    <img src={productDetails?.image} alt={productDetails?.title}
-                        width={600}
-                        height={600}
-                        className="aspect-square w-full object-cover"
-                    />
-                </div>
+                className="h-[500px] grid gap-8 p-10 max-w-[90vw] overflow-y-auto rounded-md
+                           sm:grid-cols-1 sm:overflow-y-auto 
+                           md:h-[500px]
+                           lg:h-[570px] lg:grid-cols-2
+
+                           [&::-webkit-scrollbar]:w-1
+                        [&::-webkit-scrollbar-track]:bg-gray-100
+                        [&::-webkit-scrollbar-thumb]:bg-gray-300
+                        dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+                          [&::-webkit-scrollbar-thumb]:rounded-full
+                          [&::-webkit-crollbar-thumb]:m-2
+                          [&::-webkit-scrollbar-track]:rounded-full
+                           "
+            >
+                {/* <div className="relative h-20"> */}
+                <img src={productDetails?.image} alt={productDetails?.title}
+                    className="w-full h-auto object-cover rounded-lg"
+                />
+
 
                 {/* Main div */}
                 <div className="max-h-full">
                     <>
                         {/* second section */}
                         <div>
-                            <DialogTitle className="text-3xl font-extrabold font-serif">
-                                {productDetails?.title}
+                            <DialogTitle className="font-extrabold font-serif 
+                            lg:text-3xl
+                            sm:text-sm">
+                                {productDetails?.title}....
                             </DialogTitle>
-                            <DialogDescription className="text-muted-foreground font-serif text-1xl mb-5 mt-2">
+                            <DialogDescription className="text-muted-foreground font-serif mb-5 mt-2
+                            lg:text-1xl
+                            sm:text-xs
+                            ">
                                 {productDetails?.description}
                             </DialogDescription>
                         </div>
 
                         {/* Third Section */}
-                        <div className="flex items-center justify-between font-sans">
-                            <span className="flex gap-1 font-bold">
-                                <p className="text-1xl font-serif text-muted-foreground"> Original Price : $ </p>
-                                <p className={`${productDetails?.salePrice > 0 ? "line-through " : ""} text-3xl font-bold text-primary  font-mono `}>{productDetails?.price}</p>
+                        <div className="flex items-center justify-between font-sans
+                        sm:flex-col">
+                            <span className="flex lg:gap-1 lg:font-bold">
+                                <p className="font-serif text-muted-foreground
+                                lg:text-1xl
+                                sm:text-[1px]"
+                                > Original Price : $ </p>
+                                <p className={`${productDetails?.salePrice < productDetails?.price ? "line-through " : ""} 
+                                text-3xl text-primary font-mono`}>
+                                    {productDetails?.price}
+                                </p>
                             </span>
 
-                            <span className="flex gap-1 font-bold mr-1">
+                            <span className="flex gap-1 lg:font-bold mr-1">
                                 {
-                                    productDetails?.salePrice > 0 ?
+                                    productDetails?.salePrice > 0 && productDetails?.salePrice < productDetails?.price ?
                                         <>
-                                            <p className="text-1xl font-serif ">Sale Price : $</p>
-                                            <p className="text-2xl font-bold ">{productDetails?.salePrice}</p>
+                                            <p className="lg:text-1xl font-serif text-muted-foreground ">Sale Price : $</p>
+                                            <p className="lg:text-2xl font-bold font-mono ">{productDetails?.salePrice}</p>
                                         </>
                                         : null
                                 }
@@ -157,7 +188,7 @@ export default function ShoppingProductDetails({
                         {/* fourt section */}
                         <div className="flex items-center gap-3 mt-2">
                             <div className="flex items-center gap-0.5">
-                                <ProductRating rating={averageReview}/>
+                                <ProductRating rating={averageReview} />
                             </div>
                             <span className="text-muted-foreground">{averageReview.toFixed(2)}</span>
                         </div>
@@ -167,8 +198,8 @@ export default function ShoppingProductDetails({
                             {
                                 productDetails?.totalStock === 0 ?
                                     (<Button className="w-full opacity-60 cursor-not-allowed">Out of Stock</Button>) :
-                                    (<Button className="w-full" onClick={() => 
-                                    handleAddToCart(productDetails?._id, productDetails?.totalStock)}
+                                    (<Button className="w-full" onClick={() =>
+                                        handleAddToCart(productDetails?._id, productDetails?.totalStock)}
                                     >
                                         Add To Cart
                                     </Button>)
@@ -179,11 +210,12 @@ export default function ShoppingProductDetails({
 
                     {/* sixth section */}
                     <div className="max-h-44 p-2 overflow-auto
-                    [&::-webkit-scrollbar]:w-2
+                    [&::-webkit-scrollbar]:w-1
                   [&::-webkit-scrollbar-track]:bg-gray-100
                   [&::-webkit-scrollbar-thumb]:bg-gray-300
                   dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                   dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+                    [&::-webkit-crollbar]:rounded-md
                     ">
 
                         <h2 className="text-xlfont-bold mb-4 font-serif">Reviews</h2>
@@ -212,7 +244,7 @@ export default function ShoppingProductDetails({
                                             </Avatar>
                                             <div className="grid gap-1">
                                                 <div className="flex items-center gap-2">
-                                                    <h3 className="font-bold">{item.userName}</h3>
+                                                    <h3 className="font-bold font-serif">{item.userName}</h3>
                                                 </div>
                                                 <div className="flex items-center gap-0.5">
                                                     <ProductRating rating={item?.reviewValue} />
@@ -223,7 +255,7 @@ export default function ShoppingProductDetails({
                                             </div>
                                         </div>
 
-                                    )) : <h1>No Reviews</h1>
+                                    )) : <h1 className="font-serif">No Reviews</h1>
                             }
 
 
