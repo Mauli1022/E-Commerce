@@ -152,7 +152,7 @@ export default function ShoppingProductDetails({
                                 {productDetails?.title}
                             </DialogTitle>
                             <DialogDescription className="text-muted-foreground font-serif mb-5 mt-2
-                            lg:text-1xl
+                            lg:text-2xl
                             sm:text-xs
                             ">
                                 {productDetails?.description}
