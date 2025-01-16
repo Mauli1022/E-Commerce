@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback } from '../ui/avatar'
 import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu'
 import CartWrapper from './CartWrapper'
 // thunk
-import { logOutUser } from "../../store/auth-slice/index.js"
+import { logOutUser, resetTokenAndCredentials } from "../../store/auth-slice/index.js"
 import { fetchCartItems } from "../../store/cart-slice/index.js"
 import { Label } from '../ui/label'
 
@@ -72,7 +72,10 @@ function HeaderRightContent() {
 
   // Function to handle Logout user
   function handleLogout() {
-    dispatch(logOutUser())
+    // dispatch(logOutUser())
+    dispatch(resetTokenAndCredentials())
+    sessionStorage.clear()
+    navigate("/auth/login")
   }
   useEffect(() => {
     dispatch(fetchCartItems(user.id))

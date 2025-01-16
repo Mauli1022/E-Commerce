@@ -79,6 +79,7 @@ export async function loginUser(req, res) {
         }
     )
 
+    /*
     res.cookie('token',token,{
         httpOnly : true,
         secure : true,
@@ -94,15 +95,19 @@ export async function loginUser(req, res) {
             userName : userExist.userName
         }
     })
+        */
 
-
-        /*
-        res.status(200).json({
-            data : userExist,
-            message : "User Logged in"
-        })
-            */
-
+    res.status(200).send({
+        success : true,
+        message : "Logged In Successfully.",
+        token,
+        user : {
+            email : userExist.email,
+            role : userExist.role,
+            id : userExist._id,
+            userName : userExist.userName
+        }
+    })
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -123,6 +128,7 @@ export async function  logOutUser(req,res) {
 }
  
 // Auth-middleware
+/*
 export async function authMiddleware(req,res,next) {
     // console.log(req.cookies.token);
     
@@ -143,6 +149,36 @@ export async function authMiddleware(req,res,next) {
         console.error(error);
         
         res.status(401).json({
+            success : false,
+            message : "Unauthorized User"
+        })
+    }
+}
+*/
+
+export async function authMiddleware(req,res,next) {
+    // console.log(req.cookies.token);
+    
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1]
+    
+    if(!token){
+        console.log(token,"My Token");
+        return res.status(401).send({
+            success : false,
+            message : "Unauthorized User"
+        })
+    }
+    
+    try {
+        // Decode the user
+        const decoded = jwt.verify(token ,process.env.ACCESS_TOKEN_SECRET);
+        req.user = decoded;
+        next()
+    } catch (error) {
+        // console.error("Auth Middleware error: ",error);
+        
+        res.status(401).send({
             success : false,
             message : "Unauthorized User"
         })
