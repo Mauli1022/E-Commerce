@@ -204,10 +204,22 @@ export default function ShoppingHome() {
           </div>
       </section>
 
-      <section className='py-12 '>
+      <section className='py-12'>
       <div className='container mx-auto px-4'>
           <h2 className='font-serif text-3xl font-bold text-center mb-8'>Feature Products</h2>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6
+          h-96 overflow-y-auto pt-2
+
+          [&::-webkit-scrollbar]:w-1
+                        [&::-webkit-scrollbar-track]:bg-gray-100
+                        [&::-webkit-scrollbar-thumb]:bg-gray-300
+                        dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+                          [&::-webkit-scrollbar-thumb]:rounded-full
+                          [&::-webkit-crollbar-thumb]:m-2
+                          [&::-webkit-scrollbar-track]:rounded-full
+          '>
             {
               allProduct && allProduct.length > 0 ?
               allProduct.map((productItem,index)=>

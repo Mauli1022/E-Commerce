@@ -64,3 +64,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
+}
+
+* {
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none; /* For Firefox */
+}

@@ -120,7 +120,7 @@ export default function ShoppingProductDetails({
     return (
         <Dialog open={open} onOpenChange={handleDialogClose}>
             <DialogContent
-                className="h-[500px] grid gap-8 p-10 max-w-[90vw] overflow-y-auto rounded-md
+                className="h-[80vh] grid gap-8 p-10 max-w-[90vw] overflow-y-auto rounded-md
                            sm:grid-cols-1 sm:overflow-y-auto 
                            md:h-[500px]
                            lg:h-[570px] lg:grid-cols-2
@@ -149,7 +149,7 @@ export default function ShoppingProductDetails({
                             <DialogTitle className="font-extrabold font-serif 
                             lg:text-3xl
                             sm:text-sm">
-                                {productDetails?.title}....
+                                {productDetails?.title}
                             </DialogTitle>
                             <DialogDescription className="text-muted-foreground font-serif mb-5 mt-2
                             lg:text-1xl
@@ -160,25 +160,23 @@ export default function ShoppingProductDetails({
                         </div>
 
                         {/* Third Section */}
-                        <div className="flex items-center justify-between font-sans
-                        sm:flex-col">
-                            <span className="flex lg:gap-1 lg:font-bold">
-                                <p className="font-serif text-muted-foreground
-                                lg:text-1xl
-                                sm:text-[1px]"
+                        <div className="flex items-center gap-0 justify-between font-sans
+                        lg:flex-row lg:text-lg
+                        sm:flex-col ">
+                            <span className="flex gap-1 lg:font-bold">
+                                <p className="lg:text-1xl font-serif text-muted-foreground"
                                 > Original Price : $ </p>
-                                <p className={`${productDetails?.salePrice < productDetails?.price ? "line-through " : ""} 
-                                text-3xl text-primary font-mono`}>
+                                <p className={`lg:text-2xl font-bold font-mono ${productDetails?.salePrice < productDetails?.price ? "line-through" : ""} `}>
                                     {productDetails?.price}
                                 </p>
                             </span>
 
-                            <span className="flex gap-1 lg:font-bold mr-1">
+                            <span className="flex gap-1 lg:font-bold">
                                 {
                                     productDetails?.salePrice > 0 && productDetails?.salePrice < productDetails?.price ?
                                         <>
                                             <p className="lg:text-1xl font-serif text-muted-foreground ">Sale Price : $</p>
-                                            <p className="lg:text-2xl font-bold font-mono ">{productDetails?.salePrice}</p>
+                                            <p className="lg:text-2xl font-bold font-mono">{productDetails?.salePrice}</p>
                                         </>
                                         : null
                                 }
